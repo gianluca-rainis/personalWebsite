@@ -1,4 +1,5 @@
 import React from 'react'
+import Nav from '@/components/Nav'
 
 GenericError.getInitialProps = ({ res, err }) => {
     const statusCode = res ? res.statusCode : (err ? err.statusCode : 404);
@@ -12,6 +13,8 @@ GenericError.getInitialProps = ({ res, err }) => {
 export default function GenericError({ pageTitle, statusCode }) {
     return (
         <>
+            <Nav />
+
             <main className="errorPageMain">
                 <h1>Error {statusCode}</h1>
                 <h2>Generic Error</h2>
