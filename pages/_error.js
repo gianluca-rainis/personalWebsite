@@ -1,5 +1,5 @@
-import React from 'react'
-import Nav from '@/components/Nav'
+import React from 'react';
+import Nav from '@/components/Nav';
 
 GenericError.getInitialProps = ({ res, err }) => {
     const statusCode = res ? res.statusCode : (err ? err.statusCode : 404);
@@ -23,5 +23,5 @@ export default function GenericError({ pageTitle, statusCode }) {
                 </p>
             </main>
         </>
-    )
+    );
 }

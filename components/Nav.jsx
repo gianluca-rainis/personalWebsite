@@ -1,8 +1,12 @@
-import React from 'react'
-import Link from 'next/link'
-import styles from '@/styles/nav.module.css'
+import React, { useState, useRef } from 'react';
+import Link from 'next/link';
+import styles from '@/styles/nav.module.css';
+import Calendar from '@/components/Calendar';
 
 export default function Nav() {
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+    const clockWrapperRef = useRef(null);
+
     return (
         <nav className={styles.nav} aria-label='Primary navigation'>
             <div className={styles.brandWrap}>
@@ -28,8 +32,20 @@ export default function Nav() {
                 <span className={styles.statusIcon} title='Wi-Fi'>⋯</span>
                 <span className={styles.statusIcon} title='Theme'>◐</span>
                 <span className={styles.statusIcon} title='Battery'>▮▮▮</span>
-                <div className={styles.clock}>{new Date().getDate()} {new Date().toLocaleString('en-US', { month: 'long' })} {new Date().getFullYear().toString()}</div>
+                <div className={styles.clockWrapper} ref={clockWrapperRef}>
+                    <div 
+                        className={styles.clock}
+                        onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                    >
+                        {new Date().getDate()} {new Date().toLocaleString('en-US', { month: 'long' })} {new Date().getFullYear().toString()}
+                    </div>
+                    <Calendar 
+                        isOpen={isCalendarOpen} 
+                        onClose={() => setIsCalendarOpen(false)}
+                        triggerRef={clockWrapperRef}
+                    />
+                </div>
             </div>
         </nav>
-    )
+    );
 }
