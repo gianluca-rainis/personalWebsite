@@ -1,0 +1,50 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 30px;
+    object-fit: cover;
+}
+
+h1 {
+    margin: 10px 0;
+    font-size: 32px;
+}
+
+p {
+    margin: 15px 0;
+    font-size: 18px;
+    color: #666;
+}
+
+p:last-child {
+    font-size: 16px;
+}
+
+.social-links {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.social-links a img {
+    width: 100px !important;
+    height: 100px !important;
+}
