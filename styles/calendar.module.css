@@ -1,0 +1,157 @@
+.calendarContainer {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	margin-top: 8px;
+	background: rgba(18, 18, 18, 0.95);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 8px;
+	padding: 12px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
+	backdrop-filter: blur(22px);
+	-webkit-backdrop-filter: blur(22px);
+	width: 280px;
+	z-index: 2000;
+	animation: slideDown 0.15s ease-out;
+}
+
+@keyframes slideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+	gap: 8px;
+}
+
+.navButton {
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	color: rgba(245, 245, 247, 0.8);
+	font-size: 1rem;
+	padding: 4px 8px;
+	cursor: pointer;
+	border-radius: 4px;
+	transition: all 0.15s ease;
+	font-weight: 600;
+}
+
+.navButton:hover {
+	background: rgba(255, 255, 255, 0.08);
+	color: rgba(245, 245, 247, 1);
+	border-color: rgba(255, 255, 255, 0.2);
+}
+
+.navButton:active {
+	transform: scale(0.96);
+}
+
+.monthYear {
+	flex: 1;
+	text-align: center;
+	color: rgba(245, 245, 247, 0.9);
+	font-size: 0.85rem;
+	font-weight: 600;
+	text-transform: capitalize;
+	letter-spacing: 0.01em;
+}
+
+.weekDays {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 2px;
+	margin-bottom: 8px;
+}
+
+.weekDay {
+	text-align: center;
+	color: rgba(245, 245, 247, 0.5);
+	font-size: 0.7rem;
+	font-weight: 600;
+	padding: 4px 0;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.days {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 2px;
+	margin-bottom: 12px;
+}
+
+.day {
+	aspect-ratio: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: rgba(245, 245, 247, 0.3);
+	font-size: 0.75rem;
+	border-radius: 4px;
+	cursor: default;
+	user-select: none;
+}
+
+.day.active {
+	color: rgba(245, 245, 247, 0.7);
+	cursor: pointer;
+	transition: all 0.12s ease;
+}
+
+.day.active:hover {
+	background: rgba(255, 255, 255, 0.1);
+	color: rgba(245, 245, 247, 0.95);
+	transform: scale(1.05);
+}
+
+.day.today {
+	background: rgba(125, 255, 125, 0.2);
+	color: rgba(125, 255, 125, 1);
+	font-weight: 600;
+	border: 1px solid rgba(125, 255, 125, 0.4);
+}
+
+.day.today:hover {
+	background: rgba(125, 255, 125, 0.3);
+	border-color: rgba(125, 255, 125, 0.6);
+}
+
+.todayButton {
+	width: 100%;
+	background: rgba(125, 255, 125, 0.15);
+	border: 1px solid rgba(125, 255, 125, 0.3);
+	color: rgba(125, 255, 125, 0.9);
+	padding: 8px;
+	border-radius: 4px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.todayButton:hover {
+	background: rgba(125, 255, 125, 0.25);
+	color: rgba(125, 255, 125, 1);
+	border-color: rgba(125, 255, 125, 0.5);
+}
+
+.todayButton:active {
+	transform: scale(0.98);
+}
+
+.clockWrapper {
+	position: relative;
+	flex: 0 0 auto;
+}

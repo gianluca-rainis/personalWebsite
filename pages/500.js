@@ -1,12 +1,12 @@
-import React from 'react'
-import Nav from '@/components/Nav'
+import React from 'react';
+import Nav from '@/components/Nav';
 
 export async function getStaticProps() {
     return {
         props: {
             pageTitle: "Error 500 - Internal Server Error"
         }
-    }
+    };
 }
 
 export default function Page500({ pageTitle }) {
@@ -22,5 +22,5 @@ export default function Page500({ pageTitle }) {
                 </p>
             </main>
         </>
-    )
+    );
 }

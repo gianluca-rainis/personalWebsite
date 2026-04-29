@@ -1,12 +1,12 @@
-import React from 'react'
-import Nav from '@/components/Nav'
+import React from 'react';
+import Nav from '@/components/Nav';
 
 export async function getStaticProps() {
     return {
         props: {
             pageTitle: "Error 404 - Page not Found"
         }
-    }
+    };
 }
 
 export default function Page404({ pageTitle }) {
@@ -22,5 +22,5 @@ export default function Page404({ pageTitle }) {
                 </p>
             </main>
         </>
-    )
+    );
 }

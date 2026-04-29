@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import Nav from '@/components/Nav'
+import React, { useEffect } from 'react';
+import Nav from '@/components/Nav';
 
 export default function HomePage() {
     return (
@@ -25,5 +25,5 @@ export default function HomePage() {
                 </div>
             </main>
         </>
-    )
+    );
 }
