@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '@/styles/calendar.module.css';
 
-export default function Calendar({ isOpen, onClose }) {
+export default function Calendar({ isOpen, onClose, triggerRef }) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const calendarRef = useRef(null);
 
@@ -28,7 +28,10 @@ export default function Calendar({ isOpen, onClose }) {
     // Handle click outside to close the calendar
     useEffect(() => {
         function handleClickOutside(event) {
-            if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+            const isClickOnCalendar = calendarRef.current && calendarRef.current.contains(event.target);
+            const isClickOnTrigger = triggerRef?.current && triggerRef.current.contains(event.target);
+            
+            if (!isClickOnCalendar && !isClickOnTrigger) {
                 onClose();
             }
         }
@@ -40,7 +43,7 @@ export default function Calendar({ isOpen, onClose }) {
                 document.removeEventListener('mousedown', handleClickOutside);
             }
         }
-    }, [isOpen, onClose]);
+    }, [isOpen, onClose, triggerRef]);
 
     if (!isOpen) {
         return null;

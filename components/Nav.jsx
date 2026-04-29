@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/nav.module.css';
 import Calendar from '@/components/Calendar';
 
 export default function Nav() {
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+    const clockWrapperRef = useRef(null);
 
     return (
         <nav className={styles.nav} aria-label='Primary navigation'>
@@ -31,7 +32,7 @@ export default function Nav() {
                 <span className={styles.statusIcon} title='Wi-Fi'>⋯</span>
                 <span className={styles.statusIcon} title='Theme'>◐</span>
                 <span className={styles.statusIcon} title='Battery'>▮▮▮</span>
-                <div className={styles.clockWrapper}>
+                <div className={styles.clockWrapper} ref={clockWrapperRef}>
                     <div 
                         className={styles.clock}
                         onClick={() => setIsCalendarOpen(!isCalendarOpen)}
@@ -40,7 +41,8 @@ export default function Nav() {
                     </div>
                     <Calendar 
                         isOpen={isCalendarOpen} 
-                        onClose={() => setIsCalendarOpen(false)} 
+                        onClose={() => setIsCalendarOpen(false)}
+                        triggerRef={clockWrapperRef}
                     />
                 </div>
             </div>
