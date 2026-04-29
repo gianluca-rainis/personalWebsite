@@ -6,8 +6,10 @@ export default function Nav() {
     return (
         <nav className={styles.nav} aria-label='Primary navigation'>
             <div className={styles.brandWrap}>
-                <img className={styles.avatar} src='/icon.png' alt='Gianluca Rainis Icon' aria-hidden='true' />
-                <Link href='/' className={styles.brand}>
+                <Link href='/' className={styles.avatarLink} aria-label='Homepage'>
+                    <img className={styles.avatar} src='/github_profile_image.png' alt='' aria-hidden='true' />
+                </Link>
+                <Link href='/' className={styles.brand} aria-label='Homepage'>
                     Gianluca Rainis
                 </Link>
             </div>
