@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
+import Nav from '@/components/Nav'
 
 export default function HomePage() {
     return (
         <>
+            <Nav />
+
             <main>
                 <img src="/icon.png" alt="Gianluca Rainis" />
                 <h1>Gianluca Rainis</h1>
