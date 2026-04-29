@@ -135,24 +135,18 @@
 	.nav {
 		height: auto;
 		padding: 8px 12px;
-		align-items: flex-start;
 		flex-wrap: wrap;
 	}
 
-	.brand {
-		width: 100%;
-	}
-
 	.links {
-		width: 100%;
-		justify-content: flex-start;
+		justify-content: flex-end;
 		gap: 14px;
 	}
 
 	.statusArea {
 		width: 100%;
 		margin-left: 0;
-		justify-content: flex-start;
+		justify-content: flex-end;
 		gap: 8px;
 	}
 }
