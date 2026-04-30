@@ -7,8 +7,29 @@ import WifiPanel from '@/components/WifiPanel';
 export default function Nav() {
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const [isWifiOpen, setIsWifiOpen] = useState(false);
+    const [wifiSignalLevel, setWifiSignalLevel] = useState(0);
+    const [wifiNetworkName, setWifiNetworkName] = useState('Not connected');
     const clockWrapperRef = useRef(null);
     const wifiWrapperRef = useRef(null);
+
+    function getWifiIconSrc(level) {
+        if (level <= 0) {
+            return '/Wifi_0.svg';
+        }
+
+        if (level === 1) {
+            return '/Wifi_1.svg';
+        }
+
+        if (level === 2) {
+            return '/Wifi_2.svg';
+        }
+
+        return '/Wifi_3.svg';
+    }
+
+    const wifiIconSrc = getWifiIconSrc(wifiSignalLevel);
+    const wifiTitle = wifiSignalLevel > 0?`Wi-Fi: Connected to ${wifiNetworkName}`:'Wi-Fi: Not Connected';
 
     return (
         <nav className={styles.nav} aria-label='Primary navigation'>
@@ -33,17 +54,23 @@ export default function Nav() {
             <div className={styles.statusArea}>
                 <span className={styles.statusIcon} title='Search'>⌕</span>
                 <div className={styles.wifiWrapper} ref={wifiWrapperRef}>
-                    <div
+                    <button
+                        type='button'
                         className={styles.statusButton}
                         onClick={() => setIsWifiOpen(!isWifiOpen)}
-                        title='Wi-Fi'
+                        title={wifiTitle}
+                        aria-label={wifiTitle}
                     >
-                        ⋯
-                    </div>
+                        <img className={styles.wifiIcon} src={wifiIconSrc} alt='' aria-hidden='true' />
+                    </button>
                     <WifiPanel
                         isOpen={isWifiOpen}
                         onClose={() => setIsWifiOpen(false)}
                         triggerRef={wifiWrapperRef}
+                        onSignalChange={(signalLevel, networkName) => {
+                            setWifiSignalLevel(signalLevel);
+                            setWifiNetworkName(networkName || 'Not connected');
+                        }}
                     />
                 </div>
                 <span className={styles.statusIcon} title='Theme'>◐</span>

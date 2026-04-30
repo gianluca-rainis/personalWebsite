@@ -90,6 +90,111 @@
 	font-size: 0.78rem;
 }
 
+.networkList {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+.networkRow {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 10px 12px;
+	border-radius: 6px;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.networkRowConnected {
+	border-color: rgba(125, 255, 125, 0.35);
+	background: rgba(125, 255, 125, 0.08);
+}
+
+.networkInfo {
+	min-width: 0;
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.networkTopLine {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.networkName {
+	color: rgba(245, 245, 247, 0.95);
+	font-size: 0.78rem;
+	font-weight: 600;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.signalIcon {
+	color: rgba(245, 245, 247, 0.72);
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	flex: 0 0 auto;
+}
+
+.networkMeta {
+	color: rgba(245, 245, 247, 0.52);
+	font-size: 0.68rem;
+	line-height: 1.35;
+}
+
+.connectButton,
+.disconnectButton {
+	flex: 0 0 auto;
+	border-radius: 4px;
+	padding: 7px 10px;
+	font-size: 0.72rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	border: 1px solid transparent;
+}
+
+.connectButton {
+	background: rgba(125, 255, 125, 0.15);
+	border-color: rgba(125, 255, 125, 0.3);
+	color: rgba(125, 255, 125, 0.92);
+}
+
+.connectButton:hover {
+	background: rgba(125, 255, 125, 0.25);
+	border-color: rgba(125, 255, 125, 0.5);
+	color: rgba(125, 255, 125, 1);
+}
+
+.disconnectButton {
+	background: rgba(255, 255, 255, 0.06);
+	border-color: rgba(255, 255, 255, 0.14);
+	color: rgba(245, 245, 247, 0.86);
+}
+
+.disconnectButton:hover {
+	background: rgba(255, 255, 255, 0.1);
+	border-color: rgba(255, 255, 255, 0.24);
+	color: rgba(245, 245, 247, 1);
+}
+
+.connectButton:disabled,
+.disconnectButton:disabled {
+	opacity: 0.6;
+	cursor: progress;
+}
+
 .footer {
 	display: flex;
 	align-items: center;
