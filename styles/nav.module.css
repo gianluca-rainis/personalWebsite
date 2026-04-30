@@ -173,6 +173,7 @@
 .wifiWrapper {
 	position: relative;
 	flex: 0 0 auto;
+	display: contents;
 }
 
 @media (max-width: 640px) {

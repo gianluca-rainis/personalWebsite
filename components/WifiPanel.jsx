@@ -42,19 +42,23 @@ function buildFakeNetworks() {
 }
 
 function getSignalIcon(signalLevel) {
-    if (signalLevel <= 0) {
-        return '◌';
+    if (signalLevel == null || signalLevel < 0) {
+        return '/NoWifi.svg';
+    }
+
+    if (signalLevel === 0) {
+        return '/Wifi_0.svg';
     }
 
     if (signalLevel === 1) {
-        return '▂';
+        return '/Wifi_1.svg';
     }
 
     if (signalLevel === 2) {
-        return '▂▄';
+        return '/Wifi_2.svg';
     }
 
-    return '▂▄▆';
+    return '/Wifi_3.svg';
 }
 
 export default function WifiPanel({ isOpen, onClose, triggerRef, onSignalChange }) {
@@ -84,7 +88,7 @@ export default function WifiPanel({ isOpen, onClose, triggerRef, onSignalChange 
 
         if (connectedNetwork) {
             const exists = nextNetworks.some((n) => n.id === connectedNetwork.id);
-            
+
             if (!exists) {
                 nextNetworks.unshift({
                     id: connectedNetwork.id,
@@ -126,7 +130,7 @@ export default function WifiPanel({ isOpen, onClose, triggerRef, onSignalChange 
         clearPendingTimers();
         setConnectedNetwork(null);
         setConnectingNetworkId(null);
-        onSignalChange?.(0, null);
+        onSignalChange?.(null, null);
     }
 
     useEffect(() => {
@@ -201,7 +205,12 @@ export default function WifiPanel({ isOpen, onClose, triggerRef, onSignalChange 
                                     <div className={styles.networkTopLine}>
                                         <span className={styles.networkName}>{network.name}</span>
                                         <span className={styles.signalIcon} title={`${network.signalLevel}/3 bars`}>
-                                            {getSignalIcon(network.signalLevel)}
+                                            <img
+                                                src={getSignalIcon(network.signalLevel)}
+                                                alt={`${network.signalLevel}/3`}
+                                                className={styles.signalImg}
+                                                aria-hidden='true'
+                                            />
                                         </span>
                                     </div>
                                     <div className={styles.networkMeta}>

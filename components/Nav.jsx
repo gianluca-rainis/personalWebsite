@@ -7,13 +7,17 @@ import WifiPanel from '@/components/WifiPanel';
 export default function Nav() {
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const [isWifiOpen, setIsWifiOpen] = useState(false);
-    const [wifiSignalLevel, setWifiSignalLevel] = useState(0);
+    const [wifiSignalLevel, setWifiSignalLevel] = useState(null);
     const [wifiNetworkName, setWifiNetworkName] = useState('Not connected');
     const clockWrapperRef = useRef(null);
     const wifiWrapperRef = useRef(null);
 
     function getWifiIconSrc(level) {
-        if (level <= 0) {
+        if (level == null || level < 0) {
+            return '/NoWifi.svg';
+        }
+
+        if (level === 0) {
             return '/Wifi_0.svg';
         }
 

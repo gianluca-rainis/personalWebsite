@@ -145,14 +145,21 @@
 	flex: 0 0 auto;
 }
 
+.signalImg {
+	width: 14px;
+	height: 14px;
+	object-fit: contain;
+	border: 0;
+	margin: 0;
+}
+
 .networkMeta {
 	color: rgba(245, 245, 247, 0.52);
 	font-size: 0.68rem;
 	line-height: 1.35;
 }
 
-.connectButton,
-.disconnectButton {
+.connectButton, .disconnectButton {
 	flex: 0 0 auto;
 	border-radius: 4px;
 	padding: 7px 10px;
@@ -189,8 +196,7 @@
 	color: rgba(245, 245, 247, 1);
 }
 
-.connectButton:disabled,
-.disconnectButton:disabled {
+.connectButton:disabled, .disconnectButton:disabled {
 	opacity: 0.6;
 	cursor: progress;
 }
