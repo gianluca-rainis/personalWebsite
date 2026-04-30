@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from '@/components/Nav';
+import Head from '@/components/Head';
 import { usePathname } from 'next/navigation';
 
 export async function getStaticProps() {
