@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from '@/components/Nav';
+import { usePathname } from 'next/navigation';
 
 export async function getStaticProps() {
     return {
@@ -10,8 +11,12 @@ export async function getStaticProps() {
 }
 
 export default function Page404({ pageTitle }) {
+    const path = usePathname();
+
     return (
         <>
+            <Head pageTitle={pageTitle} pageUrl={path} />
+
             <Nav />
 
             <main className="errorPageMain">

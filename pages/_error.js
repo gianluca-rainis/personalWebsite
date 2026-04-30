@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from '@/components/Nav';
+import { usePathname } from 'next/navigation';
 
 GenericError.getInitialProps = ({ res, err }) => {
     const statusCode = res ? res.statusCode : (err ? err.statusCode : 404);
@@ -11,8 +12,12 @@ GenericError.getInitialProps = ({ res, err }) => {
 }
 
 export default function GenericError({ pageTitle, statusCode }) {
+    const path = usePathname();
+    
     return (
         <>
+            <Head pageTitle={pageTitle} pageUrl={path} />
+
             <Nav />
 
             <main className="errorPageMain">
