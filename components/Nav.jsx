@@ -3,14 +3,19 @@ import Link from 'next/link';
 import styles from '@/styles/nav.module.css';
 import Calendar from '@/components/Calendar';
 import WifiPanel from '@/components/WifiPanel';
+import ThemePanel from '@/components/ThemePanel';
+import { useTheme } from '@/components/ThemeContext';
 
 export default function Nav() {
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const [isWifiOpen, setIsWifiOpen] = useState(false);
+    const [isThemeOpen, setIsThemeOpen] = useState(false);
     const [wifiSignalLevel, setWifiSignalLevel] = useState(null);
     const [wifiNetworkName, setWifiNetworkName] = useState('Not connected');
     const clockWrapperRef = useRef(null);
     const wifiWrapperRef = useRef(null);
+    const themeWrapperRef = useRef(null);
+    const { theme, themeTitle } = useTheme();
 
     function getWifiIconSrc(level) {
         if (level == null || level < 0) {
@@ -65,7 +70,7 @@ export default function Nav() {
                         title={wifiTitle}
                         aria-label={wifiTitle}
                     >
-                        <img className={styles.wifiIcon} src={wifiIconSrc} alt='' aria-hidden='true' />
+                        <img className={styles.wifiIcon} src={wifiIconSrc} alt='WiFi' aria-hidden='true' />
                     </button>
                     <WifiPanel
                         isOpen={isWifiOpen}
@@ -77,7 +82,22 @@ export default function Nav() {
                         }}
                     />
                 </div>
-                <span className={styles.statusIcon} title='Theme'>◐</span>
+                <div className={styles.themeWrapper} ref={themeWrapperRef}>
+                    <button
+                        type='button'
+                        className={styles.statusButton}
+                        onClick={() => setIsThemeOpen(!isThemeOpen)}
+                        title={themeTitle}
+                        aria-label={themeTitle}
+                    >
+                        ◐
+                    </button>
+                    <ThemePanel
+                        isOpen={isThemeOpen}
+                        onClose={() => setIsThemeOpen(false)}
+                        triggerRef={themeWrapperRef}
+                    />
+                </div>
                 <span className={styles.statusIcon} title='Battery'>▮▮▮</span>
                 <div className={styles.clockWrapper} ref={clockWrapperRef}>
                     <div 
