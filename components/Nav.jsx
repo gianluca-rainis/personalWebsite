@@ -127,7 +127,9 @@ export default function Nav() {
             </div>
 
             <div className={styles.statusArea}>
-                <span className={styles.statusIcon} title='Search'>⌕</span>
+                <span className={styles.statusIcon} title='Search'>
+                    <img className={styles.searchIcon} src='/Search.svg' alt='Search' aria-hidden='true' />
+                </span>
                 <div className={styles.wifiWrapper} ref={wifiWrapperRef}>
                     <button
                         type='button'
@@ -156,7 +158,7 @@ export default function Nav() {
                         title={themeTitle}
                         aria-label={themeTitle}
                     >
-                        ◐
+                        <img className={styles.themeIcon} src='/Theme.svg' alt='Theme' aria-hidden='true' />
                     </button>
                     <ThemePanel
                         isOpen={isThemeOpen}

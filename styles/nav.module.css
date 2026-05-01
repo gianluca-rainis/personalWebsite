@@ -135,6 +135,7 @@
 	object-fit: contain;
 	border: 0;
 	margin: 0;
+	border-radius: 0;
 }
 
 .statusButton:hover {
@@ -161,6 +162,16 @@
 	background: var(--theme-accent-bright);
 	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 8px rgba(var(--theme-accent-rgb), 0.45);
 	border: 0;
+}
+
+.themeIcon {
+	display: block;
+	width: 14px;
+	height: 14px;
+	object-fit: contain;
+	border: 0;
+	margin: 0;
+	border-radius: 0;
 }
 
 .themePanel {
@@ -415,6 +426,16 @@
 	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
+}
+
+.searchIcon {
+	display: block;
+	width: 14px;
+	height: 14px;
+	object-fit: contain;
+	border: 0;
+	margin: 0;
+	border-radius: 0;
 }
 
 @media (max-width: 640px) {
