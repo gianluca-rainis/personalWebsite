@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styles from '@/styles/nav.module.css';
 import Calendar from '@/components/Calendar';
 import WifiPanel from '@/components/WifiPanel';
@@ -8,10 +9,13 @@ import BatteryPanel from '@/components/BatteryPanel';
 import { useTheme } from '@/components/ThemeContext';
 
 export default function Nav() {
+    const router = useRouter();
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const [isWifiOpen, setIsWifiOpen] = useState(false);
     const [isThemeOpen, setIsThemeOpen] = useState(false);
     const [isBatteryOpen, setIsBatteryOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const [wifiSignalLevel, setWifiSignalLevel] = useState(null);
     const [wifiNetworkName, setWifiNetworkName] = useState('Not connected');
     const [batteryPercentage, setBatteryPercentage] = useState(100);
@@ -21,6 +25,8 @@ export default function Nav() {
     const wifiWrapperRef = useRef(null);
     const themeWrapperRef = useRef(null);
     const batteryWrapperRef = useRef(null);
+    const searchWrapperRef = useRef(null);
+    const searchInputRef = useRef(null);
     const { theme, themeTitle } = useTheme();
 
     function getWifiIconSrc(level) {
@@ -58,6 +64,40 @@ export default function Nav() {
     }, [batteryPercentage, isPowerSaveEnabled]);
 
     useEffect(() => {
+        if (isSearchOpen && searchInputRef.current) {
+            searchInputRef.current.focus();
+        }
+    }, [isSearchOpen]);
+
+    useEffect(() => {
+        function handleClickOutside(e) {
+            if (searchWrapperRef.current && !searchWrapperRef.current.contains(e.target)) {
+                setIsSearchOpen(false);
+            }
+        }
+
+        function handleKeyDown(e) {
+            if (e.key === 'Escape') {
+                setIsSearchOpen(false);
+            }
+
+            if (e.key === 'Enter' && searchQuery.trim()) {
+                handleSearch();
+            }
+        }
+
+        if (isSearchOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('keydown', handleKeyDown);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isSearchOpen, searchQuery]);
+
+    useEffect(() => {
         if (batteryPercentage <= 20 && !isPowerSaveEnabled && !hasManuallyDisabledPowerSaveRef.current) {
             setIsPowerSaveEnabled(true);
         }
@@ -80,6 +120,19 @@ export default function Nav() {
         }
 
         setIsPowerSaveEnabled(nextEnabled);
+    }
+
+    function handleSearch() {
+        if (searchQuery.trim()) {
+            router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+            setIsSearchOpen(false);
+            setSearchQuery('');
+        }
+        else {
+            router.push(`/search`);
+            setIsSearchOpen(false);
+            setSearchQuery('');
+        }
     }
 
     function getBatteryIconSrc(percentage) {
@@ -127,9 +180,38 @@ export default function Nav() {
             </div>
 
             <div className={styles.statusArea}>
-                <span className={styles.statusIcon} title='Search'>
-                    <img className={styles.searchIcon} src='/Search.svg' alt='Search' aria-hidden='true' />
-                </span>
+                <div className={styles.searchWrapper} ref={searchWrapperRef}>
+                    <button
+                        type='button'
+                        className={styles.statusButton}
+                        onClick={() => setIsSearchOpen(!isSearchOpen)}
+                        title='Search'
+                        aria-label='Search'
+                    >
+                        <img className={styles.searchIcon} src='/Search.svg' alt='Search' aria-hidden='true' />
+                    </button>
+                    {isSearchOpen && (
+                        <div className={styles.searchPanel}>
+                            <input
+                                ref={searchInputRef}
+                                type='text'
+                                className={styles.searchInput}
+                                placeholder='Search...'
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                aria-label='Search query'
+                            />
+                            <button
+                                type='button'
+                                className={styles.searchButton}
+                                onClick={handleSearch}
+                                aria-label='Submit search'
+                            >
+                                <img src='/Search.svg' alt='' aria-hidden='true' />
+                            </button>
+                        </div>
+                    )}
+                </div>
                 <div className={styles.wifiWrapper} ref={wifiWrapperRef}>
                     <button
                         type='button'
