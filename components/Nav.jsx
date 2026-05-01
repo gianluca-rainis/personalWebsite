@@ -63,6 +63,17 @@ export default function Nav() {
         }
     }, [batteryPercentage, isPowerSaveEnabled]);
 
+    useEffect(() => {
+        const resolvedTheme = isPowerSaveEnabled ? 'yellow' : theme;
+
+        document.documentElement.setAttribute('data-theme', resolvedTheme);
+        document.documentElement.setAttribute('data-power-save', isPowerSaveEnabled ? 'true' : 'false');
+
+        return () => {
+            document.documentElement.removeAttribute('data-power-save');
+        };
+    }, [theme, isPowerSaveEnabled]);
+
     function handlePowerSaveChange(nextEnabled) {
         if (!nextEnabled) {
             hasManuallyDisabledPowerSaveRef.current = true;
