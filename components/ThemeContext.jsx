@@ -14,6 +14,12 @@ const THEME_DEFINITIONS = {
         title: 'Theme: Dark red',
         description: 'Smoldering red accents - warm, striking, and confidently dramatic',
     },
+    yellow: {
+        id: 'yellow',
+        name: 'Dark yellow',
+        title: 'Theme: Dark yellow',
+        description: 'Vibrant yellow accents - cheerful, eye-catching, and playfully energetic',
+    },
 };
 const VALID_THEMES = new Set(Object.keys(THEME_DEFINITIONS));
 const ThemeContext = createContext(null);

@@ -1,20 +1,26 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/nav.module.css';
 import Calendar from '@/components/Calendar';
 import WifiPanel from '@/components/WifiPanel';
 import ThemePanel from '@/components/ThemePanel';
+import BatteryPanel from '@/components/BatteryPanel';
 import { useTheme } from '@/components/ThemeContext';
 
 export default function Nav() {
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const [isWifiOpen, setIsWifiOpen] = useState(false);
     const [isThemeOpen, setIsThemeOpen] = useState(false);
+    const [isBatteryOpen, setIsBatteryOpen] = useState(false);
     const [wifiSignalLevel, setWifiSignalLevel] = useState(null);
     const [wifiNetworkName, setWifiNetworkName] = useState('Not connected');
+    const [batteryPercentage, setBatteryPercentage] = useState(100);
+    const [isPowerSaveEnabled, setIsPowerSaveEnabled] = useState(false);
+    const hasManuallyDisabledPowerSaveRef = useRef(false);
     const clockWrapperRef = useRef(null);
     const wifiWrapperRef = useRef(null);
     const themeWrapperRef = useRef(null);
+    const batteryWrapperRef = useRef(null);
     const { theme, themeTitle } = useTheme();
 
     function getWifiIconSrc(level) {
@@ -37,7 +43,56 @@ export default function Nav() {
         return '/Wifi_3.svg';
     }
 
+    useEffect(() => {
+        if (batteryPercentage <= 1) {
+            return undefined;
+        }
+
+        const drainInterval = isPowerSaveEnabled ? 5 * 60 * 1000 : 30 * 1000;
+
+        const batteryTimeout = setTimeout(() => {
+            setBatteryPercentage(prevPercentage => Math.max(prevPercentage - 1, 1));
+        }, drainInterval);
+
+        return () => clearTimeout(batteryTimeout);
+    }, [batteryPercentage, isPowerSaveEnabled]);
+
+    useEffect(() => {
+        if (batteryPercentage <= 20 && !isPowerSaveEnabled && !hasManuallyDisabledPowerSaveRef.current) {
+            setIsPowerSaveEnabled(true);
+        }
+    }, [batteryPercentage, isPowerSaveEnabled]);
+
+    function handlePowerSaveChange(nextEnabled) {
+        if (!nextEnabled) {
+            hasManuallyDisabledPowerSaveRef.current = true;
+        }
+
+        setIsPowerSaveEnabled(nextEnabled);
+    }
+
+    function getBatteryIconSrc(percentage) {
+        if (percentage <= 20) {
+            return '/Battery_1.svg';
+        }
+
+        if (percentage <= 40) {
+            return '/Battery_2.svg';
+        }
+
+        if (percentage <= 60) {
+            return '/Battery_3.svg';
+        }
+
+        if (percentage <= 80) {
+            return '/Battery_4.svg';
+        }
+
+        return '/Battery_5.svg';
+    }
+
     const wifiIconSrc = getWifiIconSrc(wifiSignalLevel);
+    const batteryIconSrc = getBatteryIconSrc(batteryPercentage);
     const wifiTitle = wifiSignalLevel > 0?`Wi-Fi: Connected to ${wifiNetworkName}`:'Wi-Fi: Not Connected';
 
     return (
@@ -98,7 +153,25 @@ export default function Nav() {
                         triggerRef={themeWrapperRef}
                     />
                 </div>
-                <span className={styles.statusIcon} title='Battery'>▮▮▮</span>
+                <div className={styles.batteryWrapper} ref={batteryWrapperRef}>
+                    <button
+                        type='button'
+                        className={styles.statusButton}
+                        onClick={() => setIsBatteryOpen(!isBatteryOpen)}
+                        title={`Battery: ${batteryPercentage}%`}
+                        aria-label={`Battery: ${batteryPercentage}%`}
+                    >
+                        <img className={styles.batteryIcon} src={batteryIconSrc} alt='Battery' aria-hidden='true' />
+                    </button>
+                    <BatteryPanel
+                        isOpen={isBatteryOpen}
+                        onClose={() => setIsBatteryOpen(false)}
+                        triggerRef={batteryWrapperRef}
+                        batteryPercentage={batteryPercentage}
+                        onPowerSaveChange={handlePowerSaveChange}
+                        isPowerSaveEnabled={isPowerSaveEnabled}
+                    />
+                </div>
                 <div className={styles.clockWrapper} ref={clockWrapperRef}>
                     <div 
                         className={styles.clock}

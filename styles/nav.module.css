@@ -254,6 +254,9 @@
 	flex: 0 0 auto;
 }
 
+/* THEME SWATCHES */
+/* Add a new section for each theme */
+
 .themeOptionSwatch[data-theme-option='green'] {
 	background: #7dff7d;
 }
@@ -261,6 +264,12 @@
 .themeOptionSwatch[data-theme-option='red'] {
 	background: #ff6b6b;
 }
+
+.themeOptionSwatch[data-theme-option='yellow'] {
+	background: #ffff6b;
+}
+
+/* END */
 
 .themeOptionMeta {
 	color: var(--text-muted);
@@ -294,6 +303,118 @@
 	position: relative;
 	flex: 0 0 auto;
 	display: contents;
+}
+
+.batteryWrapper {
+	position: relative;
+	flex: 0 0 auto;
+	display: contents;
+}
+
+.batteryIcon {
+	display: block;
+	width: 14px;
+	height: 14px;
+	object-fit: contain;
+	border: 0;
+	margin: 0;
+	border-radius: 0;
+}
+
+.batteryPanel {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	margin-top: 8px;
+	width: 200px;
+	padding: 12px;
+	border-radius: 8px;
+	background: var(--surface-bg);
+	border: 1px solid var(--surface-border);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
+	backdrop-filter: blur(22px);
+	-webkit-backdrop-filter: blur(22px);
+	z-index: 2000;
+	animation: slideDown 0.15s ease-out;
+}
+
+.batteryHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+.batteryTitle {
+	color: var(--text-primary);
+	font-size: 0.82rem;
+	font-weight: 600;
+}
+
+.batteryPercentage {
+	color: var(--text-muted);
+	font-size: 0.76rem;
+	font-weight: 500;
+	font-variant-numeric: tabular-nums;
+}
+
+.batteryBar {
+	width: 100%;
+	height: 8px;
+	background: rgba(255, 255, 255, 0.08);
+	border-radius: 4px;
+	overflow: hidden;
+	margin-bottom: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.batteryFill {
+	height: 100%;
+	background: linear-gradient(90deg, rgba(var(--theme-accent-rgb), 0.8), rgba(var(--theme-accent-rgb), 1));
+	transition: width 0.3s ease;
+	border-radius: 3px;
+}
+
+.powerSaveButton {
+	appearance: none;
+	border: 1px solid var(--surface-border);
+	background: rgba(255, 255, 255, 0.04);
+	color: var(--text-primary);
+	border-radius: 6px;
+	padding: 8px 12px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	cursor: pointer;
+	font-size: 0.76rem;
+	font-weight: 500;
+	width: 100%;
+	transition: all 0.15s ease;
+}
+
+.powerSaveButton:hover {
+	background: rgba(255, 255, 255, 0.08);
+	border-color: var(--surface-border-strong);
+}
+
+.powerSaveButtonActive {
+	background: rgba(var(--theme-accent-rgb), 0.12);
+	border-color: rgba(var(--theme-accent-rgb), 0.32);
+}
+
+.powerSaveLabel {
+	flex: 1;
+	text-align: left;
+}
+
+.powerSaveToggle {
+	color: var(--text-muted);
+	font-size: 0.7rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
 }
 
 @media (max-width: 640px) {

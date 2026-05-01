@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+/* THEME SECTION */
+/* Add a new section for each theme */
+/* Remember to add a new section in the THEME SWATCHES (nav.module.css) for each new theme */
+
 :root, html[data-theme='green'] {
     color-scheme: dark;
     --page-bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
@@ -37,6 +41,25 @@ html[data-theme='red'] {
     --theme-accent-soft: rgba(255, 107, 107, 0.15);
     --theme-accent-soft-strong: rgba(255, 107, 107, 0.25);
 }
+
+html[data-theme='yellow'] {
+    color-scheme: dark;
+    --page-bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    --surface-bg: rgba(18, 18, 18, 0.95);
+    --surface-border: rgba(255, 255, 255, 0.12);
+    --surface-border-strong: rgba(255, 255, 255, 0.2);
+    --text-primary: rgba(245, 245, 247, 0.95);
+    --text-secondary: rgba(245, 245, 247, 0.78);
+    --text-muted: rgba(245, 245, 247, 0.52);
+    --theme-accent: #ffff6b;
+    --theme-accent-bright: #ffff3b;
+    --theme-accent-rgb: 255, 255, 107;
+    --theme-accent-bright-rgb: 255, 255, 59;
+    --theme-accent-soft: rgba(255, 255, 107, 0.15);
+    --theme-accent-soft-strong: rgba(255, 255, 107, 0.25);
+}
+
+/* END */
 
 body {
     background: var(--page-bg);
