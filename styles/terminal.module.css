@@ -1,0 +1,80 @@
+.terminal {
+	display: flex;
+	flex-direction: column;
+	border-radius: 14px;
+	overflow: hidden;
+	border: 1px solid var(--surface-border);
+	background: rgba(9, 10, 12, 0.88);
+	box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+}
+
+.topBar {
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	padding: 0 12px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	background: linear-gradient(180deg, rgba(32, 34, 38, 0.95) 0%, rgba(22, 24, 28, 0.95) 100%);
+	position: relative;
+}
+
+.terminalIcon {
+	width: 30px;
+	height: 30px;
+	display: block;
+	object-fit: contain;
+	flex: 0 0 auto;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    position: absolute;
+    left: 12px;
+}
+
+.windowControls {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	position: absolute;
+	right: 12px;
+}
+
+.controlIcon {
+	width: 15px;
+	height: 15px;
+	display: block;
+	object-fit: contain;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.title {
+	margin: 0;
+	color: var(--text-secondary);
+	text-align: center;
+	font-size: 0.75rem;
+	letter-spacing: 0.04em;
+	text-transform: lowercase;
+	user-select: none;
+	flex: 1;
+    position: absolute;
+}
+
+.content {
+	flex: 1;
+	min-height: 0;
+	padding: 18px;
+	color: var(--theme-accent);
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+	font-size: 0.95rem;
+	line-height: 1.55;
+	text-align: left;
+	white-space: pre-wrap;
+	overflow: auto;
+}
