@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Nav from '@/components/Nav';
 import Head from '@/components/Head';
@@ -15,6 +16,7 @@ export async function getStaticProps() {
 
 export default function SearchPage({ pageTitle = "Search" }) {
     const router = useRouter();
+    const path = usePathname();
     const { q } = router.query;
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -70,7 +72,7 @@ export default function SearchPage({ pageTitle = "Search" }) {
 
     return (
         <>
-            <Head pageTitle={`${pageTitle}`} pageUrl="/search" />
+            <Head pageTitle={`${pageTitle}`} pageUrl={path} />
             <Nav />
 
             <main className={styles.searchContainer}>
