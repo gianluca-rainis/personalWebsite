@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Nav from '@/components/Nav';
 import Head from '@/components/Head';
 import { usePathname } from 'next/navigation';
 import Terminal from '@/components/Terminal';
+import { useTheme } from '@/components/ThemeContext';
+
+const THEME_ACCENT_BRIGHT = {
+    green: '#00ff00',
+    red: '#ff0000',
+    yellow: '#ffff00',
+};
 
 export async function getStaticProps() {
     return {
@@ -14,6 +21,12 @@ export async function getStaticProps() {
 
 export default function HomePage({ pageTitle = "" }) {
     const path = usePathname();
+    const { theme } = useTheme();
+    const [accentBrightHex, setAccentBrightHex] = useState(THEME_ACCENT_BRIGHT.green);
+
+    useEffect(() => {
+        setAccentBrightHex(normalizeHexColor(THEME_ACCENT_BRIGHT[theme] || THEME_ACCENT_BRIGHT.green));
+    }, [theme]);
 
     return (
         <>
@@ -107,23 +120,42 @@ export default function HomePage({ pageTitle = "" }) {
                             terminalContent={`<table>
 <tr><td>Website</td><td><a href="https://www.gianlucarainis.com" target="_blank" rel="noopener noreferrer">gianlucarainis.com</a></td></tr>
 <tr><td>Email</td><td><a href="mailto:gianlucarainis@gianlucarainis.com">gianlucarainis@gianlucarainis.com</a></td></tr>
-<tr><td>Email</td><td><a href="mailto:gianlucarainis@gmail.com">gianlucarainis@gmail.com</a></td></tr>
 <tr><td>GitHub</td><td><a href="https://github.com/gianluca-rainis" target="_blank" rel="noopener noreferrer">github.com/gianluca-rainis</a></td></tr>
 <tr><td>LinkedIn</td><td><a href="https://linkedin.com/in/gianluca-rainis" target="_blank" rel="noopener noreferrer">linkedin.com/in/gianluca-rainis</a></td></tr>
 </table>`}
                         />
                     </aside>
-
                     <div className="term-right">
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
+                            terminalContent={`<h1 style="text-align: center;">Gianluca Rainis</h1>
+<img src="https://readme-typing-svg.demolab.com?font=ui-monospace%2C+SFMono-Regular%2C+Menlo%2C+Monaco%2C+Consolas%2C+Liberation+Mono%2C+Courier+New%2C+monospace&size=10&duration=3000&pause=1000&color=${encodeURIComponent(accentBrightHex)}&center=true&vCenter=true&random=true&width=200&lines=Student;Developer;Open+Source+Lover;Hack+Clubber!;Hardware+Hacker;PCB+Designer;Low-Level+Enthusiast;IT+and+Networking+Student;Computer+Science+Student;Judo+Kata+Athlete" alt="Typing SVG" style="margin: 0; border: 0; border-radius: 0; width: 100%; background: transparent; box-shadow: none;" />`}
+                        />
+                        <Terminal
+                            width={'100%'}
+                            height={'fit-content'}
                             terminalContent={`<p>My name is Gianluca Rainis and I'm a computer science student in my final year of high school.
-I'm passionate about everything related to computers, especially programming.</p>`}
+
+I'm passionate about everything related to computers, especially programming.
+
+I love tackling ambitious projects, especially those that require knowledge I don't already possess, because they allow me to learn a lot about the subject through a practical approach.
+
+I've been practicing judo competitively for several years, specializing in kata. My dedication and commitment to kata led my partner and I to compete at the European and World Championships last year.</p>`}
                         />
                     </div>
                 </div>
             </main>
         </>
     );
+}
+
+function normalizeHexColor(value) {
+    const hex = value.trim();
+
+    if (/^#[0-9a-fA-F]{3}$/.test(hex)) {
+        return `#${hex.slice(1).split('').map(char => char + char).join('')}`;
+    }
+
+    return hex;
 }

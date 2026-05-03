@@ -24,23 +24,27 @@ const THEME_DEFINITIONS = {
 const VALID_THEMES = new Set(Object.keys(THEME_DEFINITIONS));
 const ThemeContext = createContext(null);
 
-function getInitialTheme() {
-    if (typeof window === 'undefined') {
-        return 'green';
-    }
-
-    const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-
-    return VALID_THEMES.has(storedTheme) ? storedTheme : 'green';
-}
-
 export function ThemeProvider({ children }) {
-    const [theme, setTheme] = useState(getInitialTheme);
+    const [theme, setTheme] = useState('green');
+    const [isHydrated, setIsHydrated] = useState(false);
+
+    useEffect(() => {
+        const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+
+        if (VALID_THEMES.has(storedTheme)) {
+            setTheme(storedTheme);
+        }
+
+        setIsHydrated(true);
+    }, []);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
-        window.localStorage.setItem(THEME_STORAGE_KEY, theme);
-    }, [theme]);
+
+        if (isHydrated) {
+            window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+        }
+    }, [theme, isHydrated]);
 
     const themeDef = THEME_DEFINITIONS[theme] || THEME_DEFINITIONS.green;
 
