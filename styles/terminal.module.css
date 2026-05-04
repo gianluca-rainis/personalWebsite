@@ -78,3 +78,10 @@
 	white-space: pre-wrap;
 	overflow: auto;
 }
+
+.user {
+	margin: 0 0 12px 0;
+	color: var(--theme-accent);
+	font-weight: 500;
+	font-size: 0.9rem;
+}

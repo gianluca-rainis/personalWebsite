@@ -40,6 +40,7 @@ export default function HomePage({ pageTitle = "" }) {
                         <Terminal
                             width={'auto'}
                             height={'fit-content'}
+                            user={'gianluca@gianlucarainis:~$ image --ascii'}
                             terminalContent={`<p style="font-size:6px; line-height:6px; margin:0; text-align:center;">#*-+#%%#%@@****%@%%##*#*##*#**##%%%%%%@@@@@@@@@@@@@@%%%%%%%%%*++++::-****%%+*++*+%#*@@@%@%###%%%%%%%
 ++-:-=#=%%%++++%%#@%#+#+#*#*####%%%%%%%%@@@%@@@@@@%@@@@%%##%%++++=::=****#%=====*%*-=#%@@%%####%%%%%
 +-=++=#-#*====+##+%%*%%*#+#+#*%%##%#%%%%%%@%%%%@@@####%%%%%#**+++-::=+++*##=---=*%*-+%%##%%@%###%%%%
@@ -117,24 +118,40 @@ export default function HomePage({ pageTitle = "" }) {
                         <Terminal
                             width={'auto'}
                             height={'fit-content'}
-                            terminalContent={`<table>
+                            user={'gianluca@gianlucarainis:~$ info --personal'}
+                            terminalContent={`<table style="width: 100%; border-collapse: collapse;">
+<thead><tr><th colspan="2" style="text-align: center; color: var(--theme-accent)">Personal Informations</th></tr></thead>
+<tr><td>Name</td><td>Gianluca Rainis</td></tr>
+<tr><td>Birth</td><td>${new Date("2007-11-23").toLocaleDateString()} (${getDateDiff("2007-11-23")} ago)</td></tr>
+<tr><td>Nationality</td><td>Italian</td></tr>
+<tr><td>Residence</td><td>Friuli-Venezia Giulia, Italy</td></tr>
+<tr><td>Languages</td><td>Italian (Native), English (Certified B1)</td></tr>
+<tr><td>Occupation</td><td>Student & Developer</td></tr>
+</table>`} />
+                        <Terminal
+                            width={'auto'}
+                            height={'fit-content'}
+                            user={'gianluca@gianlucarainis:~$ info --contact'}
+                            terminalContent={`<table style="width: 100%; border-collapse: collapse;">
+<thead><tr><th colspan="2" style="text-align: center; color: var(--theme-accent)">Contact Informations</th></tr></thead>
 <tr><td>Website</td><td><a href="https://www.gianlucarainis.com" target="_blank" rel="noopener noreferrer">gianlucarainis.com</a></td></tr>
 <tr><td>Email</td><td><a href="mailto:gianlucarainis@gianlucarainis.com">gianlucarainis@gianlucarainis.com</a></td></tr>
 <tr><td>GitHub</td><td><a href="https://github.com/gianluca-rainis" target="_blank" rel="noopener noreferrer">github.com/gianluca-rainis</a></td></tr>
 <tr><td>LinkedIn</td><td><a href="https://linkedin.com/in/gianluca-rainis" target="_blank" rel="noopener noreferrer">linkedin.com/in/gianluca-rainis</a></td></tr>
-</table>`}
-                        />
+</table>`} />
                     </aside>
                     <div className="term-right">
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
+                            user={'gianluca@gianlucarainis:~$ info'}
                             terminalContent={`<h1 style="text-align: center;">Gianluca Rainis</h1>
 <img src="https://readme-typing-svg.demolab.com?font=ui-monospace%2C+SFMono-Regular%2C+Menlo%2C+Monaco%2C+Consolas%2C+Liberation+Mono%2C+Courier+New%2C+monospace&size=10&duration=3000&pause=1000&color=${encodeURIComponent(accentBrightHex)}&center=true&vCenter=true&random=true&width=200&lines=Student;Developer;Open+Source+Lover;Hack+Clubber!;Hardware+Hacker;PCB+Designer;Low-Level+Enthusiast;IT+and+Networking+Student;Computer+Science+Student;Judo+Kata+Athlete" alt="Typing SVG" style="margin: 0; border: 0; border-radius: 0; width: 100%; background: transparent; box-shadow: none;" />`}
                         />
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
+                            user={'gianluca@gianlucarainis:~$ presentation --about'}
                             terminalContent={`<p>My name is Gianluca Rainis and I'm a computer science student in my final year of high school.
 
 I'm passionate about everything related to computers, especially programming.
@@ -158,4 +175,26 @@ function normalizeHexColor(value) {
     }
 
     return hex;
+}
+
+function getDateDiff(startDate) {
+    const now = new Date();
+    const start = new Date(startDate);
+
+    let years = now.getFullYear() - start.getFullYear();
+    let months = now.getMonth() - start.getMonth();
+    let days = now.getDate() - start.getDate();
+
+    if (days < 0) {
+        months--;
+        const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+        days += prevMonth.getDate();
+    }
+
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    return `${years} years, ${months} months, ${days} days`;
 }

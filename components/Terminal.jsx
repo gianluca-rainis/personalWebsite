@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '@/styles/terminal.module.css';
 
-export default function Terminal({ width, height, terminalContent }) {
+export default function Terminal({ width, height, user, terminalContent }) {
     const terminalStyle = {
         width: width || '100%',
         height: height || '100%',
@@ -20,6 +20,7 @@ export default function Terminal({ width, height, terminalContent }) {
             </header>
 
             <div className={styles.content}>
+                {user && <p className={styles.user}>{user}</p>}
                 {typeof terminalContent === 'string' ? (
                     <div dangerouslySetInnerHTML={{ __html: terminalContent }} />
                 ) : (

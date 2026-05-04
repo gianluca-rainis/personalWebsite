@@ -168,6 +168,12 @@ p:last-child {
     width: 100%;
 }
 
+table, th, td {
+    border: 1px solid var(--surface-border);
+    padding: 5px;
+    text-align: left;
+}
+
 @media (max-width: 900px) {
     .term-layout {
         flex-direction: column;
