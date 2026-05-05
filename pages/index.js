@@ -40,7 +40,8 @@ export default function HomePage({ pageTitle = "" }) {
                         <Terminal
                             width={'auto'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ image --ascii'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'image --ascii'}
                             terminalContent={`<p style="font-size:6px; line-height:6px; margin:0; text-align:center;">#*-+#%%#%@@****%@%%##*#*##*#**##%%%%%%@@@@@@@@@@@@@@%%%%%%%%%*++++::-****%%+*++*+%#*@@@%@%###%%%%%%%
 ++-:-=#=%%%++++%%#@%#+#+#*#*####%%%%%%%%@@@%@@@@@@%@@@@%%##%%++++=::=****#%=====*%*-=#%@@%%####%%%%%
 +-=++=#-#*====+##+%%*%%*#+#+#*%%##%#%%%%%%@%%%%@@@####%%%%%#**+++-::=+++*##=---=*%*-+%%##%%@%###%%%%
@@ -118,20 +119,21 @@ export default function HomePage({ pageTitle = "" }) {
                         <Terminal
                             width={'auto'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ info --personal'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'info --personal'}
                             terminalContent={`<table style="width: 100%; border-collapse: collapse;">
 <thead><tr><th colspan="2" style="text-align: center; color: var(--theme-accent)">Personal Informations</th></tr></thead>
 <tr><td>Name</td><td>Gianluca Rainis</td></tr>
 <tr><td>Birth</td><td>${new Date("2007-11-23").toLocaleDateString()} (${getDateDiff("2007-11-23")} ago)</td></tr>
 <tr><td>Nationality</td><td>Italian</td></tr>
 <tr><td>Residence</td><td>Friuli-Venezia Giulia, Italy</td></tr>
-<tr><td>Languages</td><td>Italian (Native), English (Certified B1)</td></tr>
 <tr><td>Occupation</td><td>Student & Developer</td></tr>
 </table>`} />
                         <Terminal
                             width={'auto'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ info --contact'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'info --contact'}
                             terminalContent={`<table style="width: 100%; border-collapse: collapse;">
 <thead><tr><th colspan="2" style="text-align: center; color: var(--theme-accent)">Contact Informations</th></tr></thead>
 <tr><td>Website</td><td><a href="https://www.gianlucarainis.com" target="_blank" rel="noopener noreferrer">gianlucarainis.com</a></td></tr>
@@ -142,7 +144,18 @@ export default function HomePage({ pageTitle = "" }) {
                         <Terminal
                             width={'auto'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ image --profile --ascii'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'keyboard --language'}
+                            terminalContent={`<table style="width: 100%; border-collapse: collapse;">
+<thead><tr><th colspan="2" style="text-align: center; color: var(--theme-accent)">Languages</th></tr></thead>
+<tr><td style="padding-right:12px;">Italian</td><td>Native</td></tr>
+<tr><td style="padding-right:12px;">English</td><td>B1 — Cambridge Certified</td></tr>
+</table>`} />
+                        <Terminal
+                            width={'auto'}
+                            height={'fit-content'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'image --profile --ascii'}
                             terminalContent={`<p style="font-size:6px; line-height:6px; margin:0; text-align:center;">****************************************************************************%%%%%%%%%%%%%%%%%%%%%***
 ***************************************************#**@********************@%@%%####%%@@@%%#*+*%#@**
 ****#@%%%%%%%%%%%%%%%%%%%@**************************@+#%*******************@%%@%%@@%%#%%@@%%%%%%%@**
@@ -201,21 +214,24 @@ export default function HomePage({ pageTitle = "" }) {
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ cat hackclub.txt'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'cat hackclub.txt'}
                             terminalContent={`<p>Member of <a href="https://hackclub.com" target="_blank" rel="noopener noreferrer">Hack Club</a> — a global nonprofit network of student hackers and makers.<br></p>`} />
                     </aside>
                     <div className="term-right">
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ info'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'info'}
                             terminalContent={`<h1 style="text-align: center;">Gianluca Rainis</h1>
 <img src="https://readme-typing-svg.demolab.com?font=ui-monospace%2C+SFMono-Regular%2C+Menlo%2C+Monaco%2C+Consolas%2C+Liberation+Mono%2C+Courier+New%2C+monospace&size=10&duration=3000&pause=1000&color=${encodeURIComponent(accentBrightHex)}&center=true&vCenter=true&random=true&width=200&lines=Student;Developer;Open+Source+Lover;Hack+Clubber!;Hardware+Hacker;PCB+Designer;Low-Level+Enthusiast;IT+and+Networking+Student;Computer+Science+Student;Judo+Kata+Athlete" alt="Typing SVG" style="margin: 0; border: 0; border-radius: 0; width: 100%; background: transparent; box-shadow: none;" />`}
                         />
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ presentation --about'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'presentation --about'}
                             terminalContent={`<p>My name is Gianluca Rainis and I'm a computer science student in my final year of high school.
 
 I'm passionate about everything related to computers, but what drives me most is working at the boundaries between hardware and software, where a line of code directly controls physical reality.
@@ -227,7 +243,8 @@ Outside of computers, I've been practicing judo competitively for several years,
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ skills --table'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'skills --table'}
                             terminalContent={`<table style="width: 100%; border-collapse: collapse;">
 <thead><tr><th colspan="2" style="text-align: center; color: var(--theme-accent)">Skills</th></tr></thead>
 <tr><td>Languages</td><td>Python, JavaScript, C, C++, C#, Java, PHP, HTML/CSS, Assembly</td></tr>
@@ -239,7 +256,8 @@ Outside of computers, I've been practicing judo competitively for several years,
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ info --education'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'info --education'}
                             terminalContent={`<table style="width: 100%; border-collapse: collapse;">
 <thead><tr><th colspan="2" style="text-align: center; color: var(--theme-accent)">Education</th></tr></thead>
 <tr><td style="white-space:nowrap; padding-right:12px;">2021 -> 2026 (Current)</td><td><strong>High School Diploma</strong> - EQF 4<br>I.S.I.S. "Brignoli-Einaudi-Marconi"<br><em style="opacity:.7">Computer Science</em></td></tr>
@@ -247,7 +265,8 @@ Outside of computers, I've been practicing judo competitively for several years,
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ info --work'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'info --work'}
                             terminalContent={`<table style="width: 100%; border-collapse: collapse;">
 <thead><tr><th colspan="2" style="text-align: center; color: var(--theme-accent)">Work Experience</th></tr></thead>
 <tr><td style="white-space:nowrap; padding-right:12px;">27/01/2025 - 07/02/2025</td><td><strong>ICT Assistant</strong> - <a href="https://triesteairport.it" target="_blank" rel="noopener noreferrer">Trieste Airport</a>, Ronchi dei Legionari<br>
@@ -259,7 +278,8 @@ I completed a two-week internship as an ICT Assistant. I helped create a PHP cal
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ info --certifications'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'info --certifications'}
                             terminalContent={`<table style="width: 100%; border-collapse: collapse;">
 <thead><tr><th colspan="2" style="text-align: center; color: var(--theme-accent)">Certifications</th></tr></thead>
 <tr><td style="white-space:nowrap; padding-right:12px; opacity:.7">Cisco · 06/2025</td><td><a href="https://www.credly.com/badges/983fc03e-5490-441b-9f9b-108bdb7d3ca4" target="_blank" rel="noopener noreferrer">CCNA: Introduction to Networks</a></td></tr>
@@ -275,7 +295,8 @@ I completed a two-week internship as an ICT Assistant. I helped create a PHP cal
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ ls projects/'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'ls projects/'}
                             terminalContent={`<table style="width: 100%; border-collapse: collapse;">
 <thead><tr><th colspan="2" style="text-align: center; color: var(--theme-accent)">Projects</th></tr></thead>
 <tr><td style="white-space:nowrap; padding-right:12px;"><a href="https://github.com/gianluca-rainis/Z80DevBoard" target="_blank" rel="noopener noreferrer">Z80DevBoard</a></td><td>Advanced development board for the Z80 CPU powered by an RP2040. PCB designed in KiCad, firmware written from scratch.<br><span style="opacity:.7">KiCad · C · RP2040 · Z80 ASM</span></td></tr>
@@ -285,7 +306,8 @@ I completed a two-week internship as an ICT Assistant. I helped create a PHP cal
                         <Terminal
                             width={'100%'}
                             height={'fit-content'}
-                            user={'gianluca@gianlucarainis:~$ info --hobbies'}
+                            user={'gianluca@gianlucarainis:~$'}
+                            command={'info --hobbies'}
                             terminalContent={`<table style="width: 100%; border-collapse: collapse;">
 <thead><tr><th colspan="2" style="text-align: center; color: var(--theme-accent)">Hobbies &amp; Interests</th></tr></thead>
 <tr><td style="white-space:nowrap; padding-right:12px;">Judo Kata</td><td>Competing at international level as part of the Italian National Team.<br>

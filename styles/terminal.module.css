@@ -76,7 +76,9 @@
 	line-height: 1.55;
 	text-align: left;
 	white-space: pre-wrap;
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
+	word-wrap: break-word;
 }
 
 .user {
@@ -84,4 +86,32 @@
 	color: var(--theme-accent);
 	font-weight: 500;
 	font-size: 0.9rem;
+}
+
+@keyframes blink {
+	0%, 50% {
+		opacity: 1;
+	}
+	51%, 100% {
+		opacity: 0;
+	}
+}
+
+.cursor {
+	display: inline-block;
+	width: 0.5em;
+	height: 1em;
+	background-color: var(--theme-accent);
+	margin-left: 2px;
+	animation: blink 1s infinite;
+	vertical-align: text-bottom;
+}
+
+.inputLine {
+	margin: 0;
+	outline: none;
+}
+
+.inputLine span {
+	display: inline;
 }
