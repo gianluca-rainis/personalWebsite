@@ -6,6 +6,7 @@ export default function Terminal({ width, height, user, command, terminalContent
     const [history, setHistory] = useState([]);
     const [isFocused, setIsFocused] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const [windowState, setWindowState] = useState('normal');
     const contentRef = useRef(null);
     const terminalRef = useRef(null);
     const [terminalHeight, setTerminalHeight] = useState(0);
@@ -14,6 +15,17 @@ export default function Terminal({ width, height, user, command, terminalContent
         width: width || '100%',
         height: height || 'fit-content',
     };
+
+    const isMinimized = windowState === 'minimized';
+    const isMaximized = windowState === 'maximized';
+    const isClosed = windowState === 'closed';
+
+    const rootClassName = [
+        styles.terminal,
+        isVisible ? styles.terminalVisible : styles.terminalHidden,
+        isMaximized ? styles.terminalMaximized : '',
+        isClosed ? styles.terminalClosed : '',
+    ].filter(Boolean).join(' ');
 
     // Auto-scroll to bottom
     useEffect(() => {
@@ -79,7 +91,7 @@ export default function Terminal({ width, height, user, command, terminalContent
     }, []);
 
     function handleKeyDown(e) {
-        if (!isFocused) {
+        if (!isFocused || isMinimized || isClosed) {
             return;
         }
 
@@ -104,15 +116,36 @@ export default function Terminal({ width, height, user, command, terminalContent
     }
 
     useEffect(() => {
+        if (isClosed) {
+            setIsFocused(false);
+        }
+    }, [isClosed]);
+
+    useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
 
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isFocused, inputValue]);
+    }, [isFocused, inputValue, isMinimized, isClosed]);
+
+    function toggleMinimize(event) {
+        event.stopPropagation();
+        setWindowState((prev) => (prev === 'minimized' ? 'normal' : 'minimized'));
+    }
+
+    function toggleMaximize(event) {
+        event.stopPropagation();
+        setWindowState((prev) => (prev === 'maximized' ? 'normal' : 'maximized'));
+    }
+
+    function toggleClose(event) {
+        event.stopPropagation();
+        setWindowState((prev) => (prev === 'closed' ? 'normal' : 'closed'));
+    }
 
     return (
         <section 
-            className={`${styles.terminal} ${isVisible ? styles.terminalVisible : styles.terminalHidden}`}
-            style={terminalStyle} 
+            className={`${rootClassName} ${isClosed?styles.displayNone:null}`}
+            style={terminalStyle}
             aria-label="Terminale"
             ref={terminalRef}
             onMouseDown={() => setIsFocused(true)}
@@ -121,14 +154,21 @@ export default function Terminal({ width, height, user, command, terminalContent
             <header className={styles.topBar}>
                 <img src="/Terminal.svg" alt="Terminal Icon" className={styles.terminalIcon} />
                 <p className={styles.title}>terminal</p>
-                <div className={styles.windowControls} aria-hidden="true">
-                    <img src="/Line.svg" alt="Minimize" className={styles.controlIcon} />
-                    <img src="/Square.svg" alt="Maximize" className={styles.controlIcon} />
-                    <img src="/Close.svg" alt="Close" className={styles.controlIcon} />
+                <div className={styles.windowControls}>
+                    <button type="button" className={styles.controlButton} onClick={toggleMinimize} aria-label={isMinimized ? 'Restore terminal' : 'Minimize terminal'}>
+                        <img src="/Line.svg" alt="" className={styles.controlIcon} />
+                    </button>
+                    <button type="button" className={styles.controlButton} onClick={toggleMaximize} aria-label={isMaximized ? 'Reduce terminal' : 'Maximize terminal'}>
+                        <img src="/Square.svg" alt="" className={styles.controlIcon} />
+                    </button>
+                    <button type="button" className={styles.controlButton} onClick={toggleClose} aria-label='Close terminal'>
+                        <img src="/Close.svg" alt="" className={styles.controlIcon} />
+                    </button>
                 </div>
             </header>
 
-            <div className={styles.content} ref={contentRef} style={{maxHeight: terminalHeight ? `${terminalHeight}px` : null}}>
+            {!isMinimized && (
+                <div className={styles.content} ref={contentRef} style={{maxHeight: terminalHeight ? `${terminalHeight}px` : null}}>
                 {user && <p className={styles.user}>{user} {command}</p>}
                 {typeof terminalContent === 'string' ? (
                     <div dangerouslySetInnerHTML={{ __html: terminalContent }} />
@@ -146,7 +186,12 @@ export default function Terminal({ width, height, user, command, terminalContent
                     <span className={styles.inputText}>{inputValue}</span>
                     {isFocused && <span className={styles.cursor}></span>}
                 </p>
-            </div>
+                </div>
+            )}
+
+            {isMinimized && (
+                <></>
+            )}
         </section>
     );
 }
