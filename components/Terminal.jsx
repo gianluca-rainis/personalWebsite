@@ -4,6 +4,7 @@ import styles from '@/styles/terminal.module.css';
 export default function Terminal({ width, height, user, command, terminalContent }) {
     const [inputValue, setInputValue] = useState('');
     const [history, setHistory] = useState([]);
+    const [isFocused, setIsFocused] = useState(false);
     const contentRef = useRef(null);
     const terminalRef = useRef(null);
     const [terminalHeight, setTerminalHeight] = useState(0);
@@ -26,29 +27,47 @@ export default function Terminal({ width, height, user, command, terminalContent
         }
     }, []);
 
+    useEffect(() => {
+        function handleDocumentMouseDown(event) {
+            if (!terminalRef.current?.contains(event.target)) {
+                setIsFocused(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleDocumentMouseDown);
+        return () => document.removeEventListener('mousedown', handleDocumentMouseDown);
+    }, []);
+
     function handleKeyDown(e) {
+        if (!isFocused) {
+            return;
+        }
+
         if (e.key === 'Enter') {
             e.preventDefault();
 
-            if (inputValue.trim()) {
-                setHistory([...history, inputValue]);
-                setInputValue('');
-            }
+            setHistory((prev) => [...prev, inputValue]);
+            setInputValue('');
+            return;
         }
-        else if (e.key === 'Backspace') {
-            e.preventDefault();
 
-            setInputValue(inputValue.slice(0, -1));
+        if (e.key === 'Backspace') {
+            e.preventDefault();
+            setInputValue((prev) => prev.slice(0, -1));
+            return;
+        }
+
+        if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            e.preventDefault();
+            setInputValue((prev) => prev + e.key);
         }
     }
 
-    function handleKeyPress(e) {
-        if (e.key.length === 1) {
-            e.preventDefault();
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
 
-            setInputValue(inputValue + e.key);
-        }
-    }
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isFocused, inputValue]);
 
     return (
         <section 
@@ -56,7 +75,8 @@ export default function Terminal({ width, height, user, command, terminalContent
             style={terminalStyle} 
             aria-label="Terminale"
             ref={terminalRef}
-            onClick={() => terminalRef.current?.querySelector(`.${styles.inputLine}`)?.focus()}
+            onMouseDown={() => setIsFocused(true)}
+            onClick={() => setIsFocused(true)}
         >
             <header className={styles.topBar}>
                 <img src="/Terminal.svg" alt="" className={styles.terminalIcon} />
@@ -84,7 +104,7 @@ export default function Terminal({ width, height, user, command, terminalContent
                 <p className={`${styles.user} ${styles.inputLine}`}>
                     {user}
                     <span>{inputValue}</span>
-                    <span className={styles.cursor}></span>
+                    {isFocused && <span className={styles.cursor}></span>}
                 </p>
             </div>
         </section>

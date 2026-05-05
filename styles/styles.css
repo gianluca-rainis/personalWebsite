@@ -108,7 +108,7 @@ h1 {
 
 p {
     margin: 15px 0;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--theme-text);
 }
 
@@ -136,10 +136,6 @@ p a {
 
 p a:hover {
     border-bottom-color: rgba(var(--theme-accent-rgb), 0.9);
-}
-
-p:last-child {
-    font-size: 16px;
 }
 
 /* Terminal layout: left sidebar with two terminals, right main terminal */
