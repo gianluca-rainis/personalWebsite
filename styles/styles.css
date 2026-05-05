@@ -78,6 +78,20 @@ main {
     align-items: center;
     min-height: 100vh;
     text-align: center;
+    isolation: isolate;
+}
+
+main::after {
+    content: '';
+    position: fixed;
+    inset: -20vmax;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(var(--theme-accent-rgb), 0.16), transparent 38%),
+        radial-gradient(circle at 85% 78%, rgba(var(--theme-accent-bright-rgb), 0.12), transparent 42%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02), transparent 60%);
+    animation: ambientDrift 18s ease-in-out infinite alternate;
 }
 
 html[data-power-save='true'] main::before {
@@ -154,10 +168,33 @@ p a:hover {
     width: fit-content;
 }
 
+.term-sidebar > * {
+    --term-delay: 110ms;
+}
+
+.term-sidebar > *:nth-child(1) { --term-delay: 90ms; }
+.term-sidebar > *:nth-child(2) { --term-delay: 150ms; }
+.term-sidebar > *:nth-child(3) { --term-delay: 210ms; }
+.term-sidebar > *:nth-child(4) { --term-delay: 270ms; }
+.term-sidebar > *:nth-child(5) { --term-delay: 330ms; }
+.term-sidebar > *:nth-child(6) { --term-delay: 390ms; }
+
 .term-right {
     display: grid;
     gap: 1px;
 }
+
+.term-right > * {
+    --term-delay: 220ms;
+}
+
+.term-right > *:nth-child(1) { --term-delay: 180ms; }
+.term-right > *:nth-child(2) { --term-delay: 240ms; }
+.term-right > *:nth-child(3) { --term-delay: 300ms; }
+.term-right > *:nth-child(4) { --term-delay: 360ms; }
+.term-right > *:nth-child(5) { --term-delay: 420ms; }
+.term-right > *:nth-child(6) { --term-delay: 480ms; }
+.term-right > *:nth-child(7) { --term-delay: 540ms; }
 
 /* Make terminals fill their container width by default */
 .term-sidebar .terminal, .term-right .terminal {
@@ -168,6 +205,17 @@ table, th, td {
     border: 1px solid var(--surface-border);
     padding: 5px;
     text-align: left;
+}
+
+@keyframes ambientDrift {
+    0% {
+        transform: translate3d(-2%, -1%, 0) scale(1);
+        filter: saturate(0.95);
+    }
+    100% {
+        transform: translate3d(2%, 1.5%, 0) scale(1.04);
+        filter: saturate(1.05);
+    }
 }
 
 @media (max-width: 900px) {
@@ -182,5 +230,11 @@ table, th, td {
 
     .term-right {
         width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    main::after {
+        animation: none;
     }
 }

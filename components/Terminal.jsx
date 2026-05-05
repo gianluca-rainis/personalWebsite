@@ -5,6 +5,7 @@ export default function Terminal({ width, height, user, command, terminalContent
     const [inputValue, setInputValue] = useState('');
     const [history, setHistory] = useState([]);
     const [isFocused, setIsFocused] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
     const contentRef = useRef(null);
     const terminalRef = useRef(null);
     const [terminalHeight, setTerminalHeight] = useState(0);
@@ -36,6 +37,45 @@ export default function Terminal({ width, height, user, command, terminalContent
 
         document.addEventListener('mousedown', handleDocumentMouseDown);
         return () => document.removeEventListener('mousedown', handleDocumentMouseDown);
+    }, []);
+
+    useEffect(() => {
+        const target = terminalRef.current;
+
+        if (!target) {
+            return undefined;
+        }
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setIsVisible(true);
+
+            return undefined;
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            setIsVisible(true);
+            
+            return undefined;
+        }
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const [entry] = entries;
+
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.unobserve(target);
+                }
+            },
+            {
+                threshold: 0.25,
+                rootMargin: '0px 0px -8% 0px',
+            }
+        );
+
+        observer.observe(target);
+
+        return () => observer.disconnect();
     }, []);
 
     function handleKeyDown(e) {
@@ -71,7 +111,7 @@ export default function Terminal({ width, height, user, command, terminalContent
 
     return (
         <section 
-            className={styles.terminal} 
+            className={`${styles.terminal} ${isVisible ? styles.terminalVisible : styles.terminalHidden}`}
             style={terminalStyle} 
             aria-label="Terminale"
             ref={terminalRef}
@@ -79,12 +119,12 @@ export default function Terminal({ width, height, user, command, terminalContent
             onClick={() => setIsFocused(true)}
         >
             <header className={styles.topBar}>
-                <img src="/Terminal.svg" alt="" className={styles.terminalIcon} />
+                <img src="/Terminal.svg" alt="Terminal Icon" className={styles.terminalIcon} />
                 <p className={styles.title}>terminal</p>
                 <div className={styles.windowControls} aria-hidden="true">
-                    <img src="/Line.svg" alt="" className={styles.controlIcon} />
-                    <img src="/Square.svg" alt="" className={styles.controlIcon} />
-                    <img src="/Close.svg" alt="" className={styles.controlIcon} />
+                    <img src="/Line.svg" alt="Minimize" className={styles.controlIcon} />
+                    <img src="/Square.svg" alt="Maximize" className={styles.controlIcon} />
+                    <img src="/Close.svg" alt="Close" className={styles.controlIcon} />
                 </div>
             </header>
 
@@ -102,8 +142,8 @@ export default function Terminal({ width, height, user, command, terminalContent
                     </p>
                 ))}
                 <p className={`${styles.user} ${styles.inputLine}`}>
-                    {user}
-                    <span>{inputValue}</span>
+                    <span className={styles.prompt}>{user}</span>
+                    <span className={styles.inputText}>{inputValue}</span>
                     {isFocused && <span className={styles.cursor}></span>}
                 </p>
             </div>
