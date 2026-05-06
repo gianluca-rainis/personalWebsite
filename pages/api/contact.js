@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-const CONTACT_RECEIVER = 'gianlucarainis@gianlucarainis.com';
+const CONTACT_RECEIVER = 'gianlucarainis@gmail.com';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {

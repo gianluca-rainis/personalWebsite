@@ -50,12 +50,12 @@ export default function SearchPage({ pageTitle = "Contact Me" }) {
                 type: 'success',
                 message: 'Your message was sent successfully. Thank you!'
             });
-            
-            e.currentTarget.reset();
         } catch (error) {
+            console.error(error.message);
+            
             setStatus({
                 type: 'error',
-                message: error.message || 'Unable to send your message right now. Please try again later.'
+                message: 'Unable to send your message right now. Please try again later.'
             });
         } finally {
             setIsSending(false);
