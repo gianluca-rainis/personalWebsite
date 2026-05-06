@@ -177,6 +177,12 @@ export default function Nav() {
                 <a href='https://www.linkedin.com/in/gianluca-rainis' target='_blank' rel='noopener noreferrer'>
                     LinkedIn
                 </a>
+                <Link href='/curriculum' aria-label='Curriculum Vitae'>
+                    Curriculum Vitae
+                </Link>
+                <Link href='/contact' aria-label='Contact Me'>
+                    Contact Me
+                </Link>
             </div>
 
             <div className={styles.statusArea}>
