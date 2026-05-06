@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Nav from '@/components/Nav';
 import Head from '@/components/Head';
@@ -14,6 +14,53 @@ export async function getStaticProps() {
 
 export default function SearchPage({ pageTitle = "Contact Me" }) {
     const path = usePathname();
+    const [isSending, setIsSending] = useState(false);
+    const [status, setStatus] = useState({ type: '', message: '' });
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+        const payload = {
+            senderName: String(formData.get('senderName') || '').trim(),
+            replyEmail: String(formData.get('replyEmail') || '').trim(),
+            subject: String(formData.get('subject') || '').trim(),
+            message: String(formData.get('message') || '').trim()
+        };
+
+        setIsSending(true);
+        setStatus({ type: '', message: '' });
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data?.error || 'Something went wrong while sending your message.');
+            }
+
+            setStatus({
+                type: 'success',
+                message: 'Your message was sent successfully. Thank you!'
+            });
+            
+            e.currentTarget.reset();
+        } catch (error) {
+            setStatus({
+                type: 'error',
+                message: error.message || 'Unable to send your message right now. Please try again later.'
+            });
+        } finally {
+            setIsSending(false);
+        }
+    }
 
     return (
         <>
@@ -28,7 +75,7 @@ export default function SearchPage({ pageTitle = "Contact Me" }) {
                         Send me a message and I will get back to you as soon as possible.
                     </p>
 
-                    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+                    <form className={styles.form} onSubmit={handleSubmit} noValidate>
                         <label className={styles.field} htmlFor='sender-name'>
                             <span className={styles.label}>Your Name or Company</span>
                             <input
@@ -75,7 +122,15 @@ export default function SearchPage({ pageTitle = "Contact Me" }) {
                             />
                         </label>
 
-                        <button type='submit' className={styles.submitButton}>Send Message</button>
+                        <button type='submit' className={styles.submitButton} disabled={isSending}>
+                            {isSending ? 'Sending...' : 'Send Message'}
+                        </button>
+
+                        {status.message && (
+                            <p className={status.type === 'success' ? styles.statusSuccess : styles.statusError} role='status'>
+                                {status.message}
+                            </p>
+                        )}
                     </form>
                 </section>
             </main>
