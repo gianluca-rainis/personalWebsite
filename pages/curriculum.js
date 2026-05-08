@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Nav from '@/components/Nav';
 import Head from '@/components/Head';
+
+const curriculumVersions = {
+    en: {
+        label: 'English version',
+        fileName: 'Gianluca-Rainis-CV-EN.pdf',
+        href: '/Gianluca-Rainis-CV-EN.pdf',
+    },
+    it: {
+        label: 'Italian version',
+        fileName: 'Gianluca-Rainis-CV.pdf',
+        href: '/Gianluca-Rainis-CV.pdf',
+    },
+};
 
 export async function getStaticProps() {
     return {
@@ -13,6 +26,8 @@ export async function getStaticProps() {
 
 export default function SearchPage({ pageTitle = "Curriculum Vitae" }) {
     const path = usePathname();
+    const [selectedVersion, setSelectedVersion] = useState('en');
+    const currentVersion = curriculumVersions[selectedVersion];
 
     return (
         <>
@@ -25,16 +40,39 @@ export default function SearchPage({ pageTitle = "Curriculum Vitae" }) {
                         <p className="curriculum-eyebrow">Curriculum Vitae</p>
                         <h1 id="curriculum-title">Gianluca Rainis</h1>
                         <p className="curriculum-description">
-                            View my CV directly in the browser or download a PDF copy to read it offline.
+                            Choose the version you want to view in the browser or download it to read it offline.
+                        </p>
+
+                        <div className="curriculum-version-switch" role="group" aria-label="Choose CV language">
+                            <button
+                                type="button"
+                                className={`curriculum-button curriculum-version-button${selectedVersion === 'en' ? ' is-active' : ''}`}
+                                aria-pressed={selectedVersion === 'en'}
+                                onClick={() => setSelectedVersion('en')}
+                            >
+                                English
+                            </button>
+                            <button
+                                type="button"
+                                className={`curriculum-button curriculum-version-button${selectedVersion === 'it' ? ' is-active' : ''}`}
+                                aria-pressed={selectedVersion === 'it'}
+                                onClick={() => setSelectedVersion('it')}
+                            >
+                                Italian
+                            </button>
+                        </div>
+
+                        <p className="curriculum-version-label" aria-live="polite">
+                            Currently showing: {currentVersion.label}
                         </p>
 
                         <div className="curriculum-actions">
                             <a
                                 className="curriculum-button curriculum-button-primary"
-                                href="/Gianluca-Rainis-CV.pdf"
-                                download="Gianluca-Rainis-CV.pdf"
+                                href={currentVersion.href}
+                                download={currentVersion.fileName}
                             >
-                                Download a copy
+                                Download the CV ({currentVersion.label.toLowerCase()})
                             </a>
                             <a
                                 className="curriculum-button curriculum-button-primary"
@@ -47,14 +85,10 @@ export default function SearchPage({ pageTitle = "Curriculum Vitae" }) {
 
                     <div className="curriculum-preview" aria-label="CV preview">
                         <iframe
-                            src="/Gianluca-Rainis-CV.pdf"
+                            src={currentVersion.href}
                             title="CV of Gianluca Rainis"
                             loading="lazy"
-                        >
-                            <p className="curriculum-fallback">
-                                Your browser does not support PDF preview. You can open or download the file using the button above.
-                            </p>
-                        </iframe>
+                        />
                     </div>
                 </section>
             </main>

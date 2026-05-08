@@ -240,6 +240,30 @@ p a:hover {
     padding-top: 0.35rem;
 }
 
+.curriculum-version-switch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    padding-top: 0.2rem;
+}
+
+.curriculum-version-button {
+    border: 1px solid var(--surface-border-strong);
+    background: rgba(var(--theme-accent-rgb), 0.08);
+}
+
+.curriculum-version-button.is-active {
+    border-color: rgba(var(--theme-accent-rgb), 0.65);
+    background: linear-gradient(135deg, rgba(var(--theme-accent-rgb), 0.28), rgba(var(--theme-accent-bright-rgb), 0.2));
+    box-shadow: 0 10px 24px rgba(var(--theme-accent-rgb), 0.14);
+}
+
+.curriculum-version-label {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+}
+
 .curriculum-button {
     display: inline-flex;
     align-items: center;
@@ -339,6 +363,10 @@ table, th, td {
 
     .curriculum-hero {
         padding: 1.15rem;
+    }
+
+    .curriculum-version-switch {
+        width: 100%;
     }
 
     .curriculum-preview, .curriculum-preview iframe {
