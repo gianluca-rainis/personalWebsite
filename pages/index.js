@@ -9,6 +9,7 @@ const THEME_ACCENT_BRIGHT = {
     green: '#00ff00',
     red: '#ff0000',
     yellow: '#ffff00',
+    blue: '#0000ff',
 };
 
 export async function getStaticProps() {

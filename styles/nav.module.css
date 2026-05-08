@@ -277,7 +277,11 @@
 }
 
 .themeOptionSwatch[data-theme-option='yellow'] {
-	background: #ffff6b;
+	background: #ffff71;
+}
+
+.themeOptionSwatch[data-theme-option='blue'] {
+	background: #7db8ff;
 }
 
 /* END */
