@@ -1,15 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '@/styles/terminal.module.css';
+import { useTheme } from '@/components/ThemeContext';
+import { useTerminalCommands } from '@/components/TerminalCommandsContext';
 
-export default function Terminal({ width, height, user, command, terminalContent }) {
+const THEME_ACCENT_BRIGHT = {
+    green: '#00ff00',
+    red: '#ff0000',
+    yellow: '#ffff00',
+    blue: '#0000ff',
+};
+
+export default function Terminal({ width, height, user, command }) {
     const [inputValue, setInputValue] = useState('');
-    const [history, setHistory] = useState([]);
+    const [sessions, setSessions] = useState([]);
     const [isFocused, setIsFocused] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [windowState, setWindowState] = useState('normal');
+    const [terminalHeight, setTerminalHeight] = useState(100);
     const contentRef = useRef(null);
     const terminalRef = useRef(null);
-    const [terminalHeight, setTerminalHeight] = useState(0);
+    const initializedCommandRef = useRef(null);
+    const hasLockedHeightRef = useRef(false);
+    const { theme } = useTheme();
+    const { executeCommand } = useTerminalCommands();
+
+    const accentBrightHex = THEME_ACCENT_BRIGHT[theme] || THEME_ACCENT_BRIGHT.green;
 
     const terminalStyle = {
         width: width || '100%',
@@ -27,18 +42,11 @@ export default function Terminal({ width, height, user, command, terminalContent
         isClosed ? styles.terminalClosed : '',
     ].filter(Boolean).join(' ');
 
-    // Auto-scroll to bottom
     useEffect(() => {
         if (contentRef.current) {
             contentRef.current.scrollTop = contentRef.current.scrollHeight;
         }
-    }, [history, inputValue]);
-
-    useEffect(() => {
-        if (contentRef.current) {
-            setTerminalHeight(contentRef.current.getBoundingClientRect().height);
-        }
-    }, []);
+    }, [sessions, inputValue]);
 
     useEffect(() => {
         function handleDocumentMouseDown(event) {
@@ -90,6 +98,43 @@ export default function Terminal({ width, height, user, command, terminalContent
         return () => observer.disconnect();
     }, []);
 
+    function runCommand(commandText) {
+        const result = executeCommand(commandText, { accentBrightHex });
+
+        if (result.action === 'clear') {
+            setSessions([]);
+            return;
+        }
+
+        setSessions((prev) => [...prev, result]);
+    }
+
+    useEffect(() => {
+        if (initializedCommandRef.current === command) {
+            return;
+        }
+
+        initializedCommandRef.current = command;
+
+        const initialResult = executeCommand(command, { accentBrightHex });
+
+        if (initialResult.action === 'clear') {
+            setSessions([]);
+            return;
+        }
+
+        setSessions(initialResult.outputHtml ? [initialResult] : []);
+    }, [command, executeCommand, accentBrightHex]);
+
+    useEffect(() => {
+        if (hasLockedHeightRef.current || sessions.length === 0 || !contentRef.current) {
+            return;
+        }
+
+        setTerminalHeight(contentRef.current.scrollHeight+1);
+        hasLockedHeightRef.current = true;
+    }, [sessions]);
+
     function handleKeyDown(e) {
         if (!isFocused || isMinimized || isClosed) {
             return;
@@ -97,8 +142,7 @@ export default function Terminal({ width, height, user, command, terminalContent
 
         if (e.key === 'Enter') {
             e.preventDefault();
-
-            setHistory((prev) => [...prev, inputValue]);
+            runCommand(inputValue);
             setInputValue('');
             return;
         }
@@ -143,16 +187,16 @@ export default function Terminal({ width, height, user, command, terminalContent
     }
 
     return (
-        <section 
-            className={`${rootClassName} ${isClosed?styles.displayNone:null}`}
+        <section
+            className={`${rootClassName} ${isClosed ? styles.displayNone : ''}`}
             style={terminalStyle}
-            aria-label="Terminale"
+            aria-label="Terminal"
             ref={terminalRef}
             onMouseDown={() => setIsFocused(true)}
             onClick={() => setIsFocused(true)}
         >
             <header className={styles.topBar}>
-                <img src="/Terminal.svg" alt="Terminal Icon" className={styles.terminalIcon} />
+                <img src="/Terminal.svg" alt="Terminal icon" className={styles.terminalIcon} />
                 <p className={styles.title}>terminal</p>
                 <div className={styles.windowControls}>
                     <button type="button" className={styles.controlButton} onClick={toggleMinimize} aria-label={isMinimized ? 'Restore terminal' : 'Minimize terminal'}>
@@ -161,36 +205,31 @@ export default function Terminal({ width, height, user, command, terminalContent
                     <button type="button" className={styles.controlButton} onClick={toggleMaximize} aria-label={isMaximized ? 'Reduce terminal' : 'Maximize terminal'}>
                         <img src="/Square.svg" alt="" className={styles.controlIcon} />
                     </button>
-                    <button type="button" className={styles.controlButton} onClick={toggleClose} aria-label='Close terminal'>
+                    <button type="button" className={styles.controlButton} onClick={toggleClose} aria-label="Close terminal">
                         <img src="/Close.svg" alt="" className={styles.controlIcon} />
                     </button>
                 </div>
             </header>
 
             {!isMinimized && (
-                <div className={styles.content} ref={contentRef} style={{maxHeight: terminalHeight ? `${terminalHeight}px` : null}}>
-                {user && <p className={styles.user}>{user} {command}</p>}
-                {typeof terminalContent === 'string' ? (
-                    <div dangerouslySetInnerHTML={{ __html: terminalContent }} />
-                ) : (
-                    terminalContent
-                )}
-                {history.map((cmd, idx) => (
-                    <p key={idx} className={styles.user}>
-                        {user}
-                        <span>{cmd}</span>
+                <div className={styles.content} ref={contentRef} style={{ maxHeight: terminalHeight ? `${terminalHeight}px` : null, minHeight: terminalHeight ? `${terminalHeight}px` : null }}>
+                    {sessions.map((session, idx) => (
+                        <React.Fragment key={`${session.command}-${idx}`}>
+                            {user && (
+                                <p className={styles.user}>
+                                    {user}
+                                    <span>{session.command}</span>
+                                </p>
+                            )}
+                            {session.outputHtml && <div dangerouslySetInnerHTML={{ __html: session.outputHtml }} />}
+                        </React.Fragment>
+                    ))}
+                    <p className={`${styles.user} ${styles.inputLine}`}>
+                        <span className={styles.prompt}>{user}</span>
+                        <span className={styles.inputText}>{inputValue}</span>
+                        {isFocused && <span className={styles.cursor} />}
                     </p>
-                ))}
-                <p className={`${styles.user} ${styles.inputLine}`}>
-                    <span className={styles.prompt}>{user}</span>
-                    <span className={styles.inputText}>{inputValue}</span>
-                    {isFocused && <span className={styles.cursor}></span>}
-                </p>
                 </div>
-            )}
-
-            {isMinimized && (
-                <></>
             )}
         </section>
     );
