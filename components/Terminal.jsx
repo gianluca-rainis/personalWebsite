@@ -32,6 +32,7 @@ export default function Terminal({ width, height, user, command }) {
     const [windowState, setWindowState] = useState('normal');
     const [terminalHeight, setTerminalHeight] = useState(null);
     const [isReady, setIsReady] = useState(false);
+    const [isFullWidth, setIsFullWidth] = useState(false);
     const contentRef = useRef(null);
     const terminalRef = useRef(null);
     const initializedCommandRef = useRef(command);
@@ -110,6 +111,76 @@ export default function Terminal({ width, height, user, command }) {
         hasLockedHeightRef.current = true;
         setIsReady(true);
     }, [sessions]);
+
+    // Expand terminals that sit below the sidebar to fill extra left space
+    useEffect(() => {
+        function updateFullWidth() {
+            const el = terminalRef.current;
+
+            if (!el) {
+                return;
+            }
+
+            // apply on terminals in the right column
+            if (!el.closest('.term-right')) {
+                if (isFullWidth) {
+                    el.style.width = '';
+                    el.style.marginLeft = '';
+                    setIsFullWidth(false);
+                }
+
+                return;
+            }
+
+            const layout = document.querySelector('.term-layout');
+            const sidebar = document.querySelector('.term-sidebar');
+
+            if (!layout || !sidebar) {
+                return;
+            }
+
+            const termRect = el.getBoundingClientRect();
+            const sidebarRect = sidebar.getBoundingClientRect();
+            const layoutStyle = getComputedStyle(layout);
+            const gap = parseFloat(layoutStyle.gap) || 0;
+
+            if (termRect.top >= sidebarRect.bottom - 1) {
+                const extra = Math.round(sidebarRect.width + gap);
+                
+                el.style.width = `calc(100% + ${extra}px)`;
+                el.style.marginLeft = `-${extra}px`;
+                setIsFullWidth(true);
+            }
+            else if (isFullWidth) {
+                el.style.width = '';
+                el.style.marginLeft = '';
+                setIsFullWidth(false);
+            }
+        }
+
+        updateFullWidth();
+        window.addEventListener('resize', updateFullWidth);
+
+        const sidebarEl = document.querySelector('.term-sidebar');
+        const rightEl = document.querySelector('.term-right');
+        const ro = new (window.ResizeObserver || class {
+            observe() {}
+            disconnect() {}
+        })((entries) => updateFullWidth());
+
+        if (sidebarEl) {
+            ro.observe(sidebarEl);
+        }
+
+        if (rightEl) {
+            ro.observe(rightEl);
+        }
+
+        return () => {
+            window.removeEventListener('resize', updateFullWidth);
+            ro.disconnect();
+        };
+    }, [sessions, width, height, isFullWidth]);
 
     function handleKeyDown(e) {
         if (!isFocused || isMinimized || isClosed) {
