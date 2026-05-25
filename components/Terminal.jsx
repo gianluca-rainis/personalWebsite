@@ -112,50 +112,94 @@ export default function Terminal({ width, height, user, command }) {
         setIsReady(true);
     }, [sessions]);
 
-    // Expand terminals that sit below the sidebar to fill extra left space
+    // Expand terminals to fill column
     useEffect(() => {
         function updateFullWidth() {
             const el = terminalRef.current;
-
+            
             if (!el) {
-                return;
-            }
-
-            // apply on terminals in the right column
-            if (!el.closest('.term-right')) {
-                if (isFullWidth) {
-                    el.style.width = '';
-                    el.style.marginLeft = '';
-                    setIsFullWidth(false);
-                }
-
                 return;
             }
 
             const layout = document.querySelector('.term-layout');
             const sidebar = document.querySelector('.term-sidebar');
+            const right = document.querySelector('.term-right');
 
-            if (!layout || !sidebar) {
+            if (!layout || !sidebar || !right) {
                 return;
             }
 
             const termRect = el.getBoundingClientRect();
-            const sidebarRect = sidebar.getBoundingClientRect();
             const layoutStyle = getComputedStyle(layout);
             const gap = parseFloat(layoutStyle.gap) || 0;
 
-            if (termRect.top >= sidebarRect.bottom - 1) {
-                const extra = Math.round(sidebarRect.width + gap);
-                
-                el.style.width = `calc(100% + ${extra}px)`;
-                el.style.marginLeft = `-${extra}px`;
-                setIsFullWidth(true);
-            }
-            else if (isFullWidth) {
+            const inRight = !!el.closest('.term-right');
+            const inSidebar = !!el.closest('.term-sidebar');
+
+            // Clear inline styles
+            function clearStyles() {
                 el.style.width = '';
                 el.style.marginLeft = '';
-                setIsFullWidth(false);
+                el.style.marginRight = '';
+
+                if (isFullWidth) {
+                    setIsFullWidth(false);
+                }
             }
+
+            if (inRight) {
+                const sidebarRect = sidebar.getBoundingClientRect();
+                const sidebarChildren = Array.from(sidebar.children || []);
+                const overlaps = sidebarChildren.some((child) => {
+                    const cRect = child.getBoundingClientRect();
+                    return cRect.top < termRect.bottom && cRect.bottom > termRect.top;
+                });
+
+                if (!overlaps) {
+                    const extra = Math.round(sidebarRect.width + gap);
+
+                    el.style.width = `calc(100% + ${extra}px)`;
+                    el.style.marginLeft = `-${extra}px`;
+                    el.style.marginRight = '';
+
+                    if (!isFullWidth) {
+                        setIsFullWidth(true);
+                    }
+                }
+                else {
+                    clearStyles();
+                }
+
+                return;
+            }
+
+            if (inSidebar) {
+                const rightRect = right.getBoundingClientRect();
+                const rightChildren = Array.from(right.children || []);
+                const overlaps = rightChildren.some((child) => {
+                    const cRect = child.getBoundingClientRect();
+                    return cRect.top < termRect.bottom && cRect.bottom > termRect.top;
+                });
+
+                if (!overlaps) {
+                    const extra = Math.round(rightRect.width + gap);
+
+                    el.style.width = `calc(100% + ${extra}px)`;
+                    el.style.marginRight = `-${extra}px`;
+                    el.style.marginLeft = '';
+
+                    if (!isFullWidth) {
+                        setIsFullWidth(true);
+                    }
+                }
+                else {
+                    clearStyles();
+                }
+
+                return;
+            }
+
+            clearStyles();
         }
 
         updateFullWidth();
@@ -166,7 +210,7 @@ export default function Terminal({ width, height, user, command }) {
         const ro = new (window.ResizeObserver || class {
             observe() {}
             disconnect() {}
-        })((entries) => updateFullWidth());
+        })(() => updateFullWidth());
 
         if (sidebarEl) {
             ro.observe(sidebarEl);
