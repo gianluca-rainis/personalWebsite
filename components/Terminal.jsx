@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import styles from '@/styles/terminal.module.css';
 import { useTheme } from '@/components/ThemeContext';
 import { useTerminalCommands } from '@/components/TerminalCommandsContext';
@@ -10,21 +10,32 @@ const THEME_ACCENT_BRIGHT = {
     blue: '#0000ff',
 };
 
+const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
 export default function Terminal({ width, height, user, command }) {
-    const [inputValue, setInputValue] = useState('');
-    const [sessions, setSessions] = useState([]);
-    const [isFocused, setIsFocused] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
-    const [windowState, setWindowState] = useState('normal');
-    const [terminalHeight, setTerminalHeight] = useState(100);
-    const contentRef = useRef(null);
-    const terminalRef = useRef(null);
-    const initializedCommandRef = useRef(null);
-    const hasLockedHeightRef = useRef(false);
     const { theme } = useTheme();
     const { executeCommand } = useTerminalCommands();
 
     const accentBrightHex = THEME_ACCENT_BRIGHT[theme] || THEME_ACCENT_BRIGHT.green;
+
+    const [inputValue, setInputValue] = useState('');
+    const [sessions, setSessions] = useState(() => {
+        const result = executeCommand(command, { accentBrightHex });
+
+        if (result.action === 'clear') {
+            return [];
+        }
+
+        return result.outputHtml ? [result] : [];
+    });
+    const [isFocused, setIsFocused] = useState(false);
+    const [windowState, setWindowState] = useState('normal');
+    const [terminalHeight, setTerminalHeight] = useState(null);
+    const [isReady, setIsReady] = useState(false);
+    const contentRef = useRef(null);
+    const terminalRef = useRef(null);
+    const initializedCommandRef = useRef(command);
+    const hasLockedHeightRef = useRef(false);
 
     const terminalStyle = {
         width: width || '100%',
@@ -37,7 +48,7 @@ export default function Terminal({ width, height, user, command }) {
 
     const rootClassName = [
         styles.terminal,
-        isVisible ? styles.terminalVisible : styles.terminalHidden,
+        isReady ? styles.terminalVisible : styles.terminalHidden,
         isMaximized ? styles.terminalMaximized : '',
         isClosed ? styles.terminalClosed : '',
     ].filter(Boolean).join(' ');
@@ -57,45 +68,6 @@ export default function Terminal({ width, height, user, command }) {
 
         document.addEventListener('mousedown', handleDocumentMouseDown);
         return () => document.removeEventListener('mousedown', handleDocumentMouseDown);
-    }, []);
-
-    useEffect(() => {
-        const target = terminalRef.current;
-
-        if (!target) {
-            return undefined;
-        }
-
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            setIsVisible(true);
-
-            return undefined;
-        }
-
-        if (!('IntersectionObserver' in window)) {
-            setIsVisible(true);
-            
-            return undefined;
-        }
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                const [entry] = entries;
-
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.unobserve(target);
-                }
-            },
-            {
-                threshold: 0.25,
-                rootMargin: '0px 0px -8% 0px',
-            }
-        );
-
-        observer.observe(target);
-
-        return () => observer.disconnect();
     }, []);
 
     function runCommand(commandText) {
@@ -124,15 +96,19 @@ export default function Terminal({ width, height, user, command }) {
         }
 
         setSessions(initialResult.outputHtml ? [initialResult] : []);
+        hasLockedHeightRef.current = false;
+        setTerminalHeight(null);
+        setIsReady(false);
     }, [command, executeCommand, accentBrightHex]);
 
-    useEffect(() => {
-        if (hasLockedHeightRef.current || sessions.length === 0 || !contentRef.current) {
+    useIsomorphicLayoutEffect(() => {
+        if (hasLockedHeightRef.current || !contentRef.current) {
             return;
         }
 
-        setTerminalHeight(contentRef.current.scrollHeight+1);
+        setTerminalHeight(contentRef.current.scrollHeight + 1);
         hasLockedHeightRef.current = true;
+        setIsReady(true);
     }, [sessions]);
 
     function handleKeyDown(e) {
