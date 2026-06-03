@@ -5,7 +5,7 @@ Personal website and portfolio for Gianluca Rainis.
 Live site: [https://gianlucarainis.com](https://gianlucarainis.com)
 
 ## Overview
-This project is built with Next.js and presents my personal profile in a terminal-inspired interface. It includes a homepage with interactive panels, a curriculum page with downloadable CVs, a contact form, and a site search page backed by API routes.
+This project is built with Next.js and React, it presents my personal profile in a terminal-inspired interface. It includes a homepage with interactive panels, a curriculum page with downloadable CVs, a contact form, and a site search page backed by API routes.
 
 ## Features
 - Terminal-style homepage with personal info, contact links, languages, and profile art
