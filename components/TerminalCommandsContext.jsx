@@ -398,6 +398,7 @@ I completed a two-week internship as an ICT Assistant. I helped create a PHP cal
                     ['<a href="https://github.com/gianluca-rainis/Z80DevBoard" target="_blank" rel="noopener noreferrer">Z80DevBoard</a>', 'Advanced development board for the Z80 CPU powered by an RP2040. PCB designed in KiCad, firmware written from scratch.<br /><span style="opacity:.7">KiCad · C · RP2040 · Z80 ASM</span>'],
                     ['<a href="https://www.freeideas.pro" target="_blank" rel="noopener noreferrer">FreeIdeas</a>', 'Community platform for sharing project ideas. <a href="https://github.com/gianluca-rainis/FreeIdeas" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Next.js · React · JavaScript</span>'],
                     ['<a href="https://var-grdev.itch.io/magicexplorer" target="_blank" rel="noopener noreferrer">MagicExplorer</a>', '2D action game about a wizard exploring a dungeon. <a href="https://github.com/gianluca-rainis/magicExplorer" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'],
+                    ['<a href="https://github.com/ProGamesStudio/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">Beyond the Quarks</a>', 'A multiverse survival adventure: fix your wormhole device piece by piece, hopping across alien realities until you can finally return home. <a href="https://github.com/ProGamesStudio/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'],
                 ]),
             };
         case 'info --hobbies':
@@ -406,8 +407,8 @@ I completed a two-week internship as an ICT Assistant. I helped create a PHP cal
                 action: 'output',
                 recognized: true,
                 outputHtml: buildTable('Hobbies &amp; Interests', [
-                    ['Judo Kata', 'Competing at international level as part of the Italian National Team.<br /><br /><span style="opacity:.7">European Championships Riga 2025 · World Championships Paris 2025</span><br /><br /><a href="https://www.ijf.org/judoka/91045" target="_blank" rel="noopener noreferrer">IJF profile</a>'],
-                    ['Open Source', 'Developing personal projects and contributing to open source.<br /><br /><span style="opacity:.7">Low-level development · PCB design · Hardware/software boundary</span>'],
+                    ['Judo Kata', 'Competing at international level as part of the Italian National Team.<br /><br /><span style="opacity:.7">European Judo Championships Kata Riga 2025 · Paris World Championships Kata 2025 · European Judo Championships Kata Sarajevo 2026</span><br /><br /><a href="https://www.ijf.org/judoka/91045" target="_blank" rel="noopener noreferrer">IJF profile</a>'],
+                    ['Open Source', 'Developing personal projects and contributing to open source.<br /><br /><span style="opacity:.7">Low-level development · PCB design · Hardware/software boundary · Videogames · Web Development</span>'],
                 ]),
             };
         case 'cat hackclub.txt':
