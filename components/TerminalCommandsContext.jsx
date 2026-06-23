@@ -356,7 +356,7 @@ Outside of computers, I have practiced judo competitively for several years, spe
                 action: 'output',
                 recognized: true,
                 outputHtml: buildTable('Education', [
-                    ['2021 -> 2026 (Current)', '<strong>High School Diploma</strong> - EQF 4<br />I.S.I.S. &quot;Brignoli-Einaudi-Marconi&quot;<br /><em style="opacity:.7">Computer Science</em>'],
+                    ['2021 -> 2026', '<strong>High School Diploma</strong> - EQF 4<br />I.S.I.S. &quot;Brignoli-Einaudi-Marconi&quot;<br /><em style="opacity:.7">Computer Science</em><br /><span style="opacity:.7">Grade: (Cooming soon)</span>'],
                 ]),
             };
         case 'info --work':
