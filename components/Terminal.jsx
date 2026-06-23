@@ -174,6 +174,11 @@ export default function Terminal({ width, height, user, command }) {
             }
 
             if (inSidebar) {
+                if (window.innerWidth < 900) {
+                    clearStyles();
+                    return;
+                }
+
                 const rightRect = right.getBoundingClientRect();
                 const rightChildren = Array.from(right.children || []);
                 const overlaps = rightChildren.some((child) => {
