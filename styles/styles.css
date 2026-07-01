@@ -364,6 +364,22 @@ table, th, td {
     }
 }
 
+/* Ascii Pictures */
+.asciiPanel {
+    font-size: 6px;
+    line-height: 6px;
+    margin: 0;
+    text-align: center;
+}
+
+@media ((max-width: 400px) and (min-width: 301px)) {
+    .asciiPanel {
+        font-size: 4px !important;
+        line-height: 4px !important
+    }
+}
+
+/* Media Queries */
 @media (max-width: 900px) {
     .term-layout {
         flex-direction: column;
