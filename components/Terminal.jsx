@@ -102,6 +102,22 @@ export default function Terminal({ width, height, user, command }) {
         setIsReady(false);
     }, [command, executeCommand, accentBrightHex]);
 
+    useEffect(() => {
+        setSessions((prev) => prev.map((session) => {
+            if (!session || session.command !== 'info') {
+                return session;
+            }
+
+            const updated = executeCommand(session.command, { accentBrightHex });
+
+            if (updated.action === 'clear') {
+                return updated;
+            }
+
+            return updated;
+        }));
+    }, [accentBrightHex, executeCommand]);
+
     useIsomorphicLayoutEffect(() => {
         if (hasLockedHeightRef.current || !contentRef.current) {
             return;
