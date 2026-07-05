@@ -1,22 +1,20 @@
-# Gianluca Rainis - Personal Website
+# Personal Website
 
-This is my personal website and portfolio.
+This is my personal website and portfolio, built with *Next.js* and *React*.
+
+For the home page, that's the heart of the site, I've chosen a **terminal-inspired theme**.
+Youn can explore all the information about myself in **really working terminals** that emulate a simple *OS-like CLI*, allowing the user to **run custom commands** (like `info`; `image --ascii`; `presentation --about`; etc.).
+
+Every terminal has a dynamic size, depending on its content and on the size of the screen.
+For a better OS-like feeling, you can open the terminals in fullscreen, hide them or close them.
+
+On the navigation bar, you can find links to: my GitHub; my LinkedIn; a page to view and download a copy of my CV; and a contact page.
+In the top-right of the navigation bar, there are some buttons to made a better OS-like feeling: a simple calendar; a simple search; an emulated WiFi manager; a theme manager that changes the colors of the home page; and a battery emulator with even a "Power Save" mode.
+
+The site also has a page where is possible to see and download an updated copy of my Curriculum Vitae, in both English and Italian.
+Another page is the "Contact Me" page, where you can send me a message directly from the site.
 
 > **Live site**: [https://www.gianlucarainis.com](https://www.gianlucarainis.com)
-
-## Overview
-This is my personal website, built with *Next.js* and *React*.
-It presents my personal profile in a **terminal/OS-inspired interface**.
-
-Instead of a simple portfolio, the homepage actually **works like a desktop terminal**, allowing the user to **run commands** (like `info`; `image --ascii`; `presentation --about`, and all the other commands you can find in the terminals!) inside the different sized terminal windows.
-
-## Features
-- **Terminal-style homepage** with interactive panels for personal info, contact links, languages, skills, education, and all the other userfull infos about me.
-- **Light/Dark Accent** theme controls.
-- **Curriculum Vitae** page, to download or web-visualize it in English or in Italian.
-- **Contact form**, powered by a Next.js API route and Nodemailer.
-- **Site search** page, backed by a custom search API.
-- Custom *404*, *500*, and **error pages**.
 
 ## Author
 The author of the whole project is: 
@@ -29,6 +27,25 @@ The author of the whole project is:
 
 ## License
 This project is under the MIT License.
+
+## Project Structure
+```
+personalWebsite/
+├── components/               # UI pieces of the site
+├── pages/                    # Site pages and API routes
+├── public/                   # Images and downloadable files
+├── styles/                   # Global styles and CSS modules
+├── .gitattributes            # Gitattributes file
+├── .gitignore                # Gitignore file
+├── icon.png                  # The website icon
+├── jsconfig.json             # JavaScript Configuration
+├── LICENSE.md                # MIT License
+├── next.config.js            # Next.js Configuration
+├── package.json              # Project Configuration
+├── README.md                 # This file
+├── robots.txt                # Robots file
+└── sitemap.xml               # The Sitemap
+```
 
 ## Images
 ### Home Page
@@ -47,54 +64,3 @@ This project is under the MIT License.
 
 ### Search Page
 ![Search Results Page Preview](/public/screenshots/searchPageSearching.png)
-
-## Tech Stack
-- Next.js
-- React
-- Node.js
-- Nodemailer
-- CSS Modules and global CSS
-
-## Development
-Install dependencies:
-```bash
-npm install
-```
-
-Run the development server:
-```bash
-npm run dev
-```
-
-Build for production:
-```bash
-npm run build
-```
-
-Start the production server:
-```bash
-npm run start
-```
-
-## Project Structure
-```
-personalWebsite/
-├── components/               # UI pieces of the site
-├── pages/                    # App routes and API routes
-├── public/                   # Static assets and downloadable files
-├── styles/                   # Global styles and CSS modules
-├── .gitattributes            # Gitattributes file
-├── .gitignore                # Gitignore file
-├── icon.png                  # The website icon
-├── jsconfig.json             # JavaScript Configuration
-├── LICENSE.md                # MIT License
-├── next.config.js            # Next.js Configuration
-├── package.json              # Project Configuration
-├── README.md                 # This file
-├── robots.txt                # Robots file
-└── sitemap.xml               # The Sitemap
-```
-
-## Notes
-- The search feature indexes rendered pages from the site.
-- The contact form sends messages through the `/api/contact` endpoint.
