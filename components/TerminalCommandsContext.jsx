@@ -333,10 +333,10 @@ function getCommandOutput(command, context = {}) {
                 command: normalizedCommand,
                 action: 'output',
                 recognized: true,
-                outputHtml: `<p>My name is Gianluca Rainis and I am a computer science student in my final year of high school.<br />
-I am passionate about everything related to computers, but what drives me most is working at the boundary between hardware and software, where a line of code directly controls physical reality.<br />
-I like ambitious projects, especially the ones that force me to learn by building instead of only studying theory. That mindset led me to create a Z80 development board paired with an RP2040 microcontroller, designing the PCB in KiCad and writing the firmware from scratch. On the software side, I built FreeIdeas, a community platform for sharing project ideas, which pushed me to learn Next.js and React by shipping something real.<br />
-Outside of computers, I have practiced judo competitively for several years, specializing in kata. My partner and I competed at the European and World Championships as part of the Italian national team.</p>`,
+                outputHtml: `<p>My name is Gianluca Rainis and I am an incoming Computer Science student at the University of Udine. I graduated high school in Computer Science and Telecommunications with a score of 100/100 cum laude.<br />
+I am passionate about everything related to computers, but what I love the most is working at the boundary between hardware and software, where the code directly controls the computer.<br />
+I like working on ambitious projects, especially the ones that allows me to learn by building instead of only studying theory. That mindset led me to create a Z80 development board paired with an RP2040 microcontroller, designing the PCB in KiCad and writing the firmware from scratch. On the software side, I built FreeIdeas, a community platform for sharing project ideas, which pushed me to learn Next.js and React by building something real.<br />
+I have also been practicing judo at a competitive level for several years, specializing in kata. My partner and I competed at the European and World Championships as part of the Italian national team.</p>`,
             };
         case 'skills --table':
             return {
@@ -398,7 +398,7 @@ I completed a two-week internship as an ICT Assistant. I helped create a PHP cal
                     ['<a href="https://github.com/gianluca-rainis/Z80DevBoard" target="_blank" rel="noopener noreferrer">Z80DevBoard</a>', 'Advanced development board for the Z80 CPU powered by an RP2040. PCB designed in KiCad, firmware written from scratch.<br /><span style="opacity:.7">KiCad · C · RP2040 · Z80 ASM</span>'],
                     ['<a href="https://www.freeideas.pro" target="_blank" rel="noopener noreferrer">FreeIdeas</a>', 'Community platform for sharing project ideas. <a href="https://github.com/gianluca-rainis/FreeIdeas" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Next.js · React · JavaScript</span>'],
                     ['<a href="https://var-grdev.itch.io/magicexplorer" target="_blank" rel="noopener noreferrer">MagicExplorer</a>', '2D action game about a wizard exploring a dungeon. <a href="https://github.com/gianluca-rainis/magicExplorer" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'],
-                    ['<a href="https://github.com/ProGamesStudio/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">Beyond the Quarks</a>', 'A multiverse survival adventure: fix your wormhole device piece by piece, hopping across alien realities until you can finally return home. <a href="https://github.com/ProGamesStudio/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'],
+                    ['<a href="https://github.com/ProGamesStudio/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">Beyond the Quarks</a>', 'A multiverse survival adventure: fix your wormhole device piece by piece and jump your way back home. <a href="https://github.com/ProGamesStudio/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'],
                 ]),
             };
         case 'info --hobbies':
@@ -416,7 +416,8 @@ I completed a two-week internship as an ICT Assistant. I helped create a PHP cal
                 command: normalizedCommand,
                 action: 'output',
                 recognized: true,
-                outputHtml: '<p>Member of <a href="https://hackclub.com" target="_blank" rel="noopener noreferrer">Hack Club</a>, a global nonprofit network of student hackers and makers.</p>',
+                outputHtml: `<p>Member of <a href="https://hackclub.com" target="_blank" rel="noopener noreferrer">Hack Club</a>, a global nonprofit network of student hackers and makers.<br />
+I've taken part in Midnight, a hackathon in Vienna, and Outpost, a hardware hackathon in San Francisco, where I later exhibited my projects at Open Sauce 2026.</p>`,
             };
         default:
             return {
