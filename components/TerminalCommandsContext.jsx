@@ -356,7 +356,8 @@ I have also been practicing judo at a competitive level for several years, speci
                 action: 'output',
                 recognized: true,
                 outputHtml: buildTable('Education', [
-                    ['2021 -> 2026', '<strong>High School Diploma</strong> - EQF 4<br />I.S.I.S. &quot;Brignoli-Einaudi-Marconi&quot;<br /><em style="opacity:.7">Computer Science</em><br /><span style="opacity:.7">Grade: 100/100 cum Laude</span>'],
+                    ['2026 -> Present', '<strong>Bachelor\'s Degree</strong> - EQF 6<br />Università degli Studi di Udine<br /><em style="opacity:.7">Computer Science</em>'],
+                    ['2021 -> 2026', '<strong>High School Diploma</strong> - EQF 4<br />I.S.I.S. &quot;Brignoli-Einaudi-Marconi&quot;<br /><em style="opacity:.7">Computer Science</em><br /><span style="opacity:.7">Grade: 100/100 cum Laude</span>']
                 ]),
             };
         case 'info --work':
@@ -398,7 +399,8 @@ I completed a two-week internship as an ICT Assistant. I helped create a PHP cal
                     ['<a href="https://github.com/gianluca-rainis/Z80DevBoard" target="_blank" rel="noopener noreferrer">Z80DevBoard</a>', 'Advanced development board for the Z80 CPU powered by an RP2040. PCB designed in KiCad, firmware written from scratch.<br /><span style="opacity:.7">KiCad · C · RP2040 · Z80 ASM</span>'],
                     ['<a href="https://www.freeideas.pro" target="_blank" rel="noopener noreferrer">FreeIdeas</a>', 'Community platform for sharing project ideas. <a href="https://github.com/gianluca-rainis/FreeIdeas" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Next.js · React · JavaScript</span>'],
                     ['<a href="https://var-grdev.itch.io/magicexplorer" target="_blank" rel="noopener noreferrer">MagicExplorer</a>', '2D action game about a wizard exploring a dungeon. <a href="https://github.com/gianluca-rainis/magicExplorer" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'],
-                    ['<a href="https://github.com/ProGamesStudio/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">Beyond the Quarks</a>', 'A multiverse survival adventure: fix your wormhole device piece by piece and jump your way back home. <a href="https://github.com/ProGamesStudio/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'],
+                    ['<a href="https://var-grdev.itch.io/beyond-the-quarks" target="_blank" rel="noopener noreferrer">Beyond the Quarks</a>', 'A multiverse survival adventure: fix your wormhole device piece by piece and jump your way back home. <a href="https://github.com/gianluca-rainis/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'],
+                    ['<a href="https://github.com/gianluca-rainis/UHBadge" target="_blank" rel="noopener noreferrer">UHBadge</a>', 'Universal Hacker Badge - The conference badge for hackers.<br /><span style="opacity:.7">KiCad · C · RP2350</span>'],
                 ]),
             };
         case 'info --hobbies':
