@@ -213,6 +213,22 @@ p a:hover {
 .term-right > *:nth-child(1) { --term-delay: 180ms; }
 .term-right > *:nth-child(2) { --term-delay: 240ms; }
 
+.term-layout-fill {
+    display: flex;
+    gap: 1px;
+    width: 100%;
+    min-height: 100vh;
+    align-items: flex-start;
+}
+
+.term-fill {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    width: 100%;
+    margin: 10px;
+}
+
 .curriculum-page {
     width: min(1120px, calc(100% - 2rem));
     margin: 0 auto;

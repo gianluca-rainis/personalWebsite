@@ -22,8 +22,45 @@ const TERMINAL_COMMANDS = [
     { command: 'info --work', description: 'Show work experience.' },
     { command: 'info --certifications', description: 'Show certifications.' },
     { command: 'ls projects/', description: 'List selected projects.' },
+    { command: 'project <name>', description: 'Show a project.' },
     { command: 'info --hobbies', description: 'Show hobbies and interests.' },
     { command: 'cat hackclub.txt', description: 'Show the Hack Club note.' },
+];
+
+const PROJECTS_INFO = [
+    { name: '<a href="https://github.com/gianluca-rainis/Z80DevBoard" target="_blank" rel="noopener noreferrer">Z80DevBoard</a>', description: 'Advanced development board for the Z80 CPU powered by an RP2040. PCB designed in KiCad, firmware written from scratch.<br /><span style="opacity:.7">KiCad · C · RP2040 · Z80 ASM</span>'},
+    { name: '<a href="https://www.freeideas.pro" target="_blank" rel="noopener noreferrer">FreeIdeas</a>', description: 'Community platform for sharing project ideas. <a href="https://github.com/gianluca-rainis/FreeIdeas" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Next.js · React · JavaScript</span>'},
+    { name: '<a href="https://var-grdev.itch.io/magicexplorer" target="_blank" rel="noopener noreferrer">MagicExplorer</a>', description: '2D action game about a wizard exploring a dungeon. <a href="https://github.com/gianluca-rainis/magicExplorer" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'},
+    { name: '<a href="https://var-grdev.itch.io/beyond-the-quarks" target="_blank" rel="noopener noreferrer">Beyond the Quarks</a>', description: 'A multiverse survival adventure: fix your wormhole device piece by piece and jump your way back home. <a href="https://github.com/gianluca-rainis/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'},
+    { name: '<a href="https://github.com/gianluca-rainis/UHBadge" target="_blank" rel="noopener noreferrer">UHBadge</a>', description: 'Universal Hacker Badge - The conference badge for hackers.<br /><span style="opacity:.7">KiCad · C · RP2350</span>'},
+];
+
+export const PROJECTS_INFO_EXTENDED = [
+    {
+        command: 'project z80devboard',
+        name: '<a href="https://github.com/gianluca-rainis/Z80DevBoard" target="_blank" rel="noopener noreferrer">Z80DevBoard</a>', 
+        description: 'Advanced development board for the Z80 CPU powered by an RP2040. PCB designed in KiCad, firmware written from scratch.<br /><span style="opacity:.7">KiCad · C · RP2040 · Z80 ASM</span>'
+    },
+    {
+        command: 'project freeideas',
+        name: '<a href="https://www.freeideas.pro" target="_blank" rel="noopener noreferrer">FreeIdeas</a>', 
+        description: 'Community platform for sharing project ideas. <a href="https://github.com/gianluca-rainis/FreeIdeas" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Next.js · React · JavaScript</span>'
+    },
+    {
+        command: 'project magicexplorer',
+        name: '<a href="https://var-grdev.itch.io/magicexplorer" target="_blank" rel="noopener noreferrer">MagicExplorer</a>', 
+        description: '2D action game about a wizard exploring a dungeon. <a href="https://github.com/gianluca-rainis/magicExplorer" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'
+    },
+    {
+        command: 'project beyond-the-quarks',
+        name: '<a href="https://var-grdev.itch.io/beyond-the-quarks" target="_blank" rel="noopener noreferrer">Beyond the Quarks</a>', 
+        description: 'A multiverse survival adventure: fix your wormhole device piece by piece and jump your way back home. <a href="https://github.com/gianluca-rainis/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'
+    },
+    {
+        command: 'project uhbadge',
+        name: '<a href="https://github.com/gianluca-rainis/UHBadge" target="_blank" rel="noopener noreferrer">UHBadge</a>', 
+        description: 'Universal Hacker Badge - The conference badge for hackers.<br /><span style="opacity:.7">KiCad · C · RP2350</span>'
+    },
 ];
 
 const TerminalCommandsContext = createContext(null);
@@ -78,7 +115,7 @@ function buildTable(title, rows) {
     const body = rows
         .map(([label, value]) => `
 <tr>
-<td style="white-space:nowrap; padding-right:12px;">${label}</td>
+${label?`<td style="white-space:nowrap; padding-right:12px;">${label}</td>`:''}
 <td>${value}</td>
 </tr>`)
         .join('');
@@ -102,7 +139,6 @@ ${items}
 }
 
 function buildAsciiPanel(label) {
-
     switch (label) {
         case "picture":
             return `<p class="asciiPanel">#*-+#%%#%@@****%@%%##*#*##*#**##%%%%%%@@@@@@@@@@@@@@%%%%%%%%%*++++::-****%%+*++*+%#*@@@%@%###%%%%%%%
@@ -257,6 +293,26 @@ function getCommandOutput(command, context = {}) {
         };
     }
 
+    const projectMatch = normalizedCommand.match(/^project\s+(.+)$/);
+
+    if (projectMatch) {
+        const project = PROJECTS_INFO_EXTENDED.find(({ command }) => command === normalizedCommand);
+
+        return project
+            ? {
+                command: normalizedCommand,
+                action: 'output',
+                recognized: true,
+                outputHtml: buildTable(project.name, [[null, project.description]]),
+            }
+            : {
+                command: normalizedCommand,
+                action: 'output',
+                recognized: false,
+                outputHtml: `<p>Project not found: <strong>${escapeHtml(projectMatch[1])}</strong></p>`,
+            };
+    }
+
     switch (normalizedCommand) {
         case 'clear':
             return {
@@ -395,13 +451,10 @@ I completed a two-week internship as an ICT Assistant. I helped create a PHP cal
                 command: normalizedCommand,
                 action: 'output',
                 recognized: true,
-                outputHtml: buildTable('Projects', [
-                    ['<a href="https://github.com/gianluca-rainis/Z80DevBoard" target="_blank" rel="noopener noreferrer">Z80DevBoard</a>', 'Advanced development board for the Z80 CPU powered by an RP2040. PCB designed in KiCad, firmware written from scratch.<br /><span style="opacity:.7">KiCad · C · RP2040 · Z80 ASM</span>'],
-                    ['<a href="https://www.freeideas.pro" target="_blank" rel="noopener noreferrer">FreeIdeas</a>', 'Community platform for sharing project ideas. <a href="https://github.com/gianluca-rainis/FreeIdeas" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Next.js · React · JavaScript</span>'],
-                    ['<a href="https://var-grdev.itch.io/magicexplorer" target="_blank" rel="noopener noreferrer">MagicExplorer</a>', '2D action game about a wizard exploring a dungeon. <a href="https://github.com/gianluca-rainis/magicExplorer" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'],
-                    ['<a href="https://var-grdev.itch.io/beyond-the-quarks" target="_blank" rel="noopener noreferrer">Beyond the Quarks</a>', 'A multiverse survival adventure: fix your wormhole device piece by piece and jump your way back home. <a href="https://github.com/gianluca-rainis/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'],
-                    ['<a href="https://github.com/gianluca-rainis/UHBadge" target="_blank" rel="noopener noreferrer">UHBadge</a>', 'Universal Hacker Badge - The conference badge for hackers.<br /><span style="opacity:.7">KiCad · C · RP2350</span>'],
-                ]),
+                outputHtml: buildTable('Projects', PROJECTS_INFO.map((project) => [
+                    project.name,
+                    project.description,
+                ])),
             };
         case 'info --hobbies':
             return {
