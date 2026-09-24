@@ -39,27 +39,27 @@ export const PROJECTS_INFO_EXTENDED = [
     {
         command: 'project z80devboard',
         name: '<a href="https://github.com/gianluca-rainis/Z80DevBoard" target="_blank" rel="noopener noreferrer">Z80DevBoard</a>', 
-        description: 'Advanced development board for the Z80 CPU powered by an RP2040. PCB designed in KiCad, firmware written from scratch.<br /><span style="opacity:.7">KiCad · C · RP2040 · Z80 ASM</span>'
+        description: 'Open source educational development board, pairing a Zilog Z84C00 CPU with an RP2040, designed from scratch in KiCad. Features a dedicated Z80 clock circuit, 64KB async SRAM, 74HC595 shift registers for LED bus visualization, and level-shifted BUSREQ/BUSACK handshaking. Firmware written in C with the Pico SDK. Complete documentation written as a full Markdown book. Sponsored by PCBWay, showcased at Open Sauce 2026 during Hack Club Outpost.<br /><span style="opacity:.7">KiCad · C · RP2040 · Z80 ASM</span>'
     },
     {
         command: 'project freeideas',
         name: '<a href="https://www.freeideas.pro" target="_blank" rel="noopener noreferrer">FreeIdeas</a>', 
-        description: 'Community platform for sharing project ideas. <a href="https://github.com/gianluca-rainis/FreeIdeas" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Next.js · React · JavaScript</span>'
+        description: 'Community platform for sharing and refining project ideas, with nested comments, voting, following, and full idea lifecycle management under a custom license. Multi-year flagship project with 370+ commits across 8 major versions, and winner of the Giovani Digit@li national competition.<br /><span style="opacity:.7">Next.js · React · JavaScript</span>'
     },
     {
         command: 'project magicexplorer',
         name: '<a href="https://var-grdev.itch.io/magicexplorer" target="_blank" rel="noopener noreferrer">MagicExplorer</a>', 
-        description: '2D action game about a wizard exploring a dungeon. <a href="https://github.com/gianluca-rainis/magicExplorer" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'
+        description: '2D action game about a wizard exploring a procedurally-tricky dungeon, fighting enemies and uncovering secrets room by room. Built solo as an early Unity project.<br /><span style="opacity:.7">Unity · C#</span>'
     },
     {
         command: 'project beyond-the-quarks',
         name: '<a href="https://var-grdev.itch.io/beyond-the-quarks" target="_blank" rel="noopener noreferrer">Beyond the Quarks</a>', 
-        description: 'A multiverse survival adventure: fix your wormhole device piece by piece and jump your way back home. <a href="https://github.com/gianluca-rainis/BeyondTheQuarks" target="_blank" rel="noopener noreferrer">GitHub</a><br /><span style="opacity:.7">Unity · C#</span>'
+        description: '2D sci-fi adventure game built with Unity: the Q.U.A.R.K., a revolutionary multiverse-travel device, is broken, and you must repair it piece by piece, jumping between worlds to find your way home. Features a full custom room/camera system, NPC dynamic dialogues, cutscenes and a storyline.<br /><span style="opacity:.7">Unity · C#</span>'
     },
     {
         command: 'project uhbadge',
         name: '<a href="https://github.com/gianluca-rainis/UHBadge" target="_blank" rel="noopener noreferrer">UHBadge</a>', 
-        description: 'Universal Hacker Badge - The conference badge for hackers.<br /><span style="opacity:.7">KiCad · C · RP2350</span>'
+        description: 'The ultimate conference badge for hackers: an RP2350-powered PCB badge with a 2.9" e-ink display, NFC, WiFi/Bluetooth, micro SD for custom program loading, USB-C, battery recharger system and expansion pins. Firmware built on the Pico SDK, with a full custom UI: custom badge style, contact sharing over NFC, and an expandable tools menu for community-made add-ons.<br /><span style="opacity:.7">KiCad · C · RP2350</span>'
     },
 ];
 
