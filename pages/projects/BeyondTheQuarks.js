@@ -29,7 +29,7 @@ export default function ProjectPage({ pageTitle = "" }) {
                             width="100%"
                             height="fit-content"
                             user="gianluca@gianlucarainis:~/projects$"
-                            command={'project beyond-the-quarks --extended'}
+                            command={'project beyond-the-quarks'}
                         />
                     </div>
                 </div>

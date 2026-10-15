@@ -29,7 +29,7 @@ export default function ProjectPage({ pageTitle = "" }) {
                             width="100%"
                             height="fit-content"
                             user="gianluca@gianlucarainis:~/projects$"
-                            command={'project z80devboard --extended'}
+                            command={'project z80devboard'}
                         />
                     </div>
                 </div>

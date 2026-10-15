@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 import styles from '@/styles/terminal.module.css';
 import { useTheme } from '@/components/ThemeContext';
 import { useTerminalCommands } from '@/components/TerminalCommandsContext';
@@ -12,9 +13,14 @@ const THEME_ACCENT_BRIGHT = {
 
 const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
+function getCurrentPath(path) {
+    return path.split(/[?#]/, 1)[0].replace(/\/$/, '') || '/';
+}
+
 export default function Terminal({ width, height, user, command, output=null }) {
     const { theme } = useTheme();
     const { executeCommand } = useTerminalCommands();
+    const router = useRouter();
 
     const accentBrightHex = THEME_ACCENT_BRIGHT[theme] || THEME_ACCENT_BRIGHT.green;
 
@@ -79,28 +85,40 @@ export default function Terminal({ width, height, user, command, output=null }) 
             return;
         }
 
+        if (result.action === 'redirect' && getCurrentPath(router.asPath) !== result.href) {
+            router.push(result.href);
+            return;
+        }
+
         setSessions((prev) => [...prev, result]);
     }
 
     useEffect(() => {
+        const initialResult = executeCommand(command, { accentBrightHex });
+
+        if (initialResult.action === 'redirect' && getCurrentPath(router.asPath) !== initialResult.href) {
+            router.push(initialResult.href);
+            setSessions([]);
+        }
+
         if (initializedCommandRef.current === command) {
             return;
         }
 
         initializedCommandRef.current = command;
 
-        const initialResult = executeCommand(command, { accentBrightHex });
-
         if (initialResult.action === 'clear') {
             setSessions([]);
             return;
         }
 
-        setSessions(initialResult.outputHtml ? [initialResult] : []);
+        setSessions(
+            (initialResult.action === 'redirect' && getCurrentPath(router.asPath) !== initialResult.href) ? [] : initialResult.outputHtml ? [initialResult] : []
+        );
         hasLockedHeightRef.current = false;
         setTerminalHeight(null);
         setIsReady(false);
-    }, [command, executeCommand, accentBrightHex]);
+    }, [command, executeCommand, accentBrightHex, router]);
 
     useEffect(() => {
         setSessions((prev) => prev.map((session) => {
