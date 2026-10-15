@@ -12,7 +12,7 @@ const THEME_ACCENT_BRIGHT = {
 
 const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
-export default function Terminal({ width, height, user, command }) {
+export default function Terminal({ width, height, user, command, output=null }) {
     const { theme } = useTheme();
     const { executeCommand } = useTerminalCommands();
 
@@ -329,7 +329,7 @@ export default function Terminal({ width, height, user, command }) {
             </header>
 
             {!isMinimized && (
-                <div className={styles.content} ref={contentRef} style={{ maxHeight: terminalHeight ? `${terminalHeight}px` : null, minHeight: terminalHeight ? `${terminalHeight}px` : null }}>
+                <div className={styles.content} ref={contentRef} style={{ maxHeight: terminalHeight && !isMaximized ? `${terminalHeight}px` : null, minHeight: terminalHeight ? `${terminalHeight}px` : null }}>
                     {sessions.map((session, idx) => (
                         <React.Fragment key={`${session.command}-${idx}`}>
                             {user && (
@@ -338,7 +338,7 @@ export default function Terminal({ width, height, user, command }) {
                                     <span>{session.command}</span>
                                 </p>
                             )}
-                            {session.outputHtml && <div dangerouslySetInnerHTML={{ __html: session.outputHtml }} />}
+                            {session.outputHtml && <div dangerouslySetInnerHTML={{ __html: output?output:session.outputHtml }} />}
                         </React.Fragment>
                     ))}
                     <p className={`${styles.user} ${styles.inputLine}`}>

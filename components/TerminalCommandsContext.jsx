@@ -22,8 +22,8 @@ const TERMINAL_COMMANDS = [
     { command: 'info --work', description: 'Show work experience.' },
     { command: 'info --certifications', description: 'Show certifications.' },
     { command: 'ls projects/', description: 'List selected projects.' },
-    { command: 'project <name>', description: 'Show a project.' },
-    { command: 'project <name> --extended', description: 'Show extended informations about a project.' },
+    { command: 'project [name]', description: 'Show a project.' },
+    { command: 'project [name] --extended', description: 'Show extended informations about a project.' },
     { command: 'info --hobbies', description: 'Show hobbies and interests.' },
     { command: 'cat hackclub.txt', description: 'Show the Hack Club note.' },
 ];

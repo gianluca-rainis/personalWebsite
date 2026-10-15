@@ -30,6 +30,7 @@ export default function ProjectPage({ pageTitle = "" }) {
                             height="fit-content"
                             user="gianluca@gianlucarainis:~/projects$"
                             command={'project ProjectName --extended'}
+                            output={`<h1>Project Name</h1><p>Project description goes here.</p><p><span style="opacity:.7">Technologies used</span></p>`}
                         />
                     </div>
                 </div>
