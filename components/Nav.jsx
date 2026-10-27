@@ -171,6 +171,9 @@ export default function Nav() {
             </div>
 
             <div className={styles.links}>
+                <a href='https://projects.gianlucarainis.com' rel='noopener noreferrer'>
+                    GR Projects
+                </a>
                 <a href='https://github.com/gianluca-rainis' target='_blank' rel='noopener noreferrer'>
                     GitHub
                 </a>
