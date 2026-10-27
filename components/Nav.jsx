@@ -168,12 +168,16 @@ export default function Nav() {
                 <Link href='/' className={styles.brand} aria-label='Homepage'>
                     Gianluca Rainis
                 </Link>
+                <span> | </span>
+                <a href='https://projects.gianlucarainis.com' className={styles.avatarLink} aria-label='Homepage'>
+                    <img className={styles.avatar} src='/GRLabs.png' alt='' aria-hidden='true' />
+                </a>
+                <a href='https://projects.gianlucarainis.com' className={styles.brand} aria-label='Homepage'>
+                    GR Labs
+                </a>
             </div>
 
             <div className={styles.links}>
-                <a href='https://projects.gianlucarainis.com' rel='noopener noreferrer'>
-                    GR Projects
-                </a>
                 <a href='https://github.com/gianluca-rainis' target='_blank' rel='noopener noreferrer'>
                     GitHub
                 </a>
