@@ -380,7 +380,7 @@ function getCommandOutput(command, context = {}) {
                 command: normalizedCommand,
                 action: 'output',
                 recognized: true,
-                outputHtml: `<p>My name is Gianluca Rainis and I am an incoming Computer Science student at the University of Udine. I graduated high school in Computer Science and Telecommunications with a score of 100/100 cum laude.<br />
+                outputHtml: `<p>My name is Gianluca Rainis and I am a Computer Science student at the University of Udine. I graduated high school in Computer Science and Telecommunications with a score of 100/100 cum laude.<br />
 I am passionate about everything related to computers, but what I love the most is working at the boundary between hardware and software, where the code directly controls the computer.<br />
 I like working on ambitious projects, especially the ones that allows me to learn by building instead of only studying theory. That mindset led me to create a Z80 development board paired with an RP2040 microcontroller, designing the PCB in KiCad and writing the firmware from scratch. On the software side, I built FreeIdeas, a community platform for sharing project ideas, which pushed me to learn Next.js and React by building something real.<br />
 I have also been practicing judo at a competitive level for several years, specializing in kata. My partner and I competed at the European and World Championships as part of the Italian national team.</p>`,
