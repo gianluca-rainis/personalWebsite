@@ -7,8 +7,14 @@ const siteName = 'Gianluca Rainis';
 const description = 'Gianluca Rainis is a student of Computer Science who is passionate about software development, hardware design and innovation.';
 const previewImage = `${siteUrl}/gianlucarainisPreview.png`;
 const picture = `${siteUrl}/gianlucarainis.png`;
+const authorRef = {
+    '@type': 'Person',
+    '@id': `${siteUrl}/#person`,
+    name: 'Gianluca Rainis',
+    url: siteUrl
+};
 
-export default function Head({ pageTitle = '', pageUrl }) {
+export default function Head({ pageTitle='', pageUrl }) {
     const router = useRouter();
     const path = router.asPath.split('?')[0].split('#')[0];
     const canonicalUrl = pageUrl || `${siteUrl}${path === '/' ? '' : path}`;
@@ -20,11 +26,14 @@ export default function Head({ pageTitle = '', pageUrl }) {
             '@type': 'WebSite',
             name: siteName,
             alternateName: ['Rainis', 'G. Rainis'],
-            url: siteUrl
+            url: siteUrl,
+            author: authorRef,
+            publisher: authorRef
         },
         {
             '@context': 'https://schema.org',
             '@type': 'Person',
+            '@id': `${siteUrl}/#person`,
             name: siteName,
             givenName: 'Gianluca',
             familyName: 'Rainis',
