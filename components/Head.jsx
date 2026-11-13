@@ -1,54 +1,78 @@
-import React from 'react'
-import HeadNext from 'next/head'
+import React from 'react';
+import HeadNext from 'next/head';
+import { useRouter } from 'next/router';
 
-export default function Head({ pageTitle="", pageUrl="https://www.gianlucarainis.com/" }) {
+const siteUrl = 'https://www.gianlucarainis.com';
+const siteName = 'Gianluca Rainis';
+const description = 'Gianluca Rainis is a student of Computer Science who is passionate about software development, hardware design and innovation.';
+const previewImage = `${siteUrl}/gianlucarainisPreview.png`;
+const picture = `${siteUrl}/gianlucarainis.png`;
+
+export default function Head({ pageTitle = '', pageUrl }) {
+    const router = useRouter();
+    const path = router.asPath.split('?')[0].split('#')[0];
+    const canonicalUrl = pageUrl || `${siteUrl}${path === '/' ? '' : path}`;
+    const fullTitle = pageTitle ? `${siteName} - ${pageTitle}` : siteName;
+
+    const jsonLd = [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: siteName,
+            alternateName: ['Rainis', 'G. Rainis'],
+            url: siteUrl
+        },
+        {
+            '@context': 'https://schema.org',
+            '@type': 'Person',
+            name: siteName,
+            givenName: 'Gianluca',
+            familyName: 'Rainis',
+            knownLanguage: ['Italian', 'English'],
+            description: description,
+            url: siteUrl,
+            image: picture,
+            jobTitle: 'Computer Science Student and Developer',
+            affiliation: [
+                { '@type': 'CollegeOrUniversity', name: 'Università degli Studi di Udine' },
+                { '@type': 'Organization', name: 'Mensa Italia' }
+            ],
+            sameAs: [
+                'https://projects.gianlucarainis.com',
+                'https://github.com/gianluca-rainis',
+                'https://www.linkedin.com/in/gianluca-rainis/'
+            ]
+        }
+    ];
+
     return (
-        <>
-            <HeadNext>
-                <title>{pageTitle ? `Gianluca Rainis - ${pageTitle}` : 'Gianluca Rainis'}</title>
-                <link rel="canonical" href={pageUrl} />
+        <HeadNext>
+            <title>{fullTitle}</title>
+            <link rel="canonical" href={canonicalUrl} />
+            <meta name="description" content={description} />
+            <meta name="author" content={siteName} />
+            <meta name="robots" content="index, follow, max-image-preview:large" />
 
-                <meta name="description" content="Gianluca Rainis is a student of Computer Science who is passionate about software development, hardware design and innovation." />
-                <meta name="author" content="Gianluca Rainis" />
-                <meta name="keywords" content="Gianluca Rainis - Student, Developer" />
-                <meta name="application-name" content="Gianluca Rainis" lang="en" />
-                
-                {/* Open Graph */}
-                <meta property="og:url" content={pageUrl} />
-                <meta property="og:type" content="website" />
-                <meta property="og:site_name" content="Gianluca Rainis" />
-                <meta property="og:title" content={pageTitle || 'Gianluca Rainis'} />
-                <meta property="og:description" content="Gianluca Rainis is a student of Computer Science who is passionate about software development, hardware design and innovation." />
-                <meta property="og:image" content="https://www.gianlucarainis.com/gianlucarainisPreview.png" />
-                <meta property="og:image:secure_url" content="https://www.gianlucarainis.com/gianlucarainisPreview.png" />
-                <meta property="og:image:type" content="image/png" />
-                <meta property="og:image:width" content="1200" />
-                <meta property="og:image:height" content="630" />
-                <meta property="og:image:alt" content="Gianluca Rainis preview image" />
+            <meta property="og:url" content={canonicalUrl} />
+            <meta property="og:type" content="website" />
+            <meta property="og:site_name" content={siteName} />
+            <meta property="og:title" content={fullTitle} />
+            <meta property="og:description" content={description} />
+            <meta property="og:image" content={previewImage} />
+            <meta property="og:image:type" content="image/png" />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta property="og:image:alt" content="Gianluca Rainis preview image" />
 
-                {/* Twitter */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta property="twitter:domain" content="www.gianlucarainis.com" />
-                <meta name="twitter:url" content={pageUrl} />
-                <meta name="twitter:title" content={pageTitle || 'Gianluca Rainis'} />
-                <meta name="twitter:description" content="Gianluca Rainis is a student of Computer Science who is passionate about software development, hardware design and innovation." />
-                <meta name="twitter:image" content="https://www.gianlucarainis.com/gianlucarainisPreview.png" />
-                
-                {/* Favicon and CSS are in _document.js */}
-                
-                {/* JSON-LD Schema */}
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            "@type": "WebSite",
-                            "@context": "https://schema.org",
-                            "name": "Gianluca Rainis",
-                            "url": "https://www.gianlucarainis.com"
-                        })
-                    }}
-                />
-            </HeadNext>
-        </>
-    )
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={fullTitle} />
+            <meta name="twitter:description" content={description} />
+            <meta name="twitter:image" content={previewImage} />
+
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+        </HeadNext>
+    );
 }
