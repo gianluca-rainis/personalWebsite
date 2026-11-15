@@ -382,16 +382,22 @@ table, th, td {
 
 /* Ascii Pictures */
 .asciiPanel {
-    font-size: 6px;
-    line-height: 6px;
+    font-size: 2.77px;
+    line-height: 3.32px;
     margin: 0;
     text-align: center;
 }
 
-@media ((max-width: 400px) and (min-width: 301px)) {
+@media ((max-width: 600px) and (min-width: 400px)) {
     .asciiPanel {
-        font-size: 4px !important;
-        line-height: 4px !important
+        font-size: 2px !important;
+        line-height: 2.33px !important
+    }
+}
+@media ((max-width: 400px) and (min-width: 300px)) {
+    .asciiPanel {
+        font-size: 1.4px !important;
+        line-height: 1.65px !important
     }
 }
 
