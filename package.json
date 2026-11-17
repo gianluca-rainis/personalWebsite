@@ -13,8 +13,8 @@
         "build-vite": "vite build"
     },
     "dependencies": {
-        "next": "^16.3.8",
-        "nodemailer": "^10.0.13",
+        "next": "^16.4.5",
+        "nodemailer": "^10.1.4",
         "react": "^19.3.0",
         "react-dom": "^19.3.0"
     },
@@ -22,8 +22,8 @@
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
         "@vitejs/plugin-react": "^6.1.1",
-        "eslint": "^10.11.0",
-        "eslint-config-next": "^16.3.8",
+        "eslint": "^9.39.5",
+        "eslint-config-next": "^16.4.5",
         "vite": "^8.3.2"
     }
 }

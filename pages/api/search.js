@@ -2,6 +2,8 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const CACHE_TTL_MS = 5 * 60 * 1000; // Cathe TTL of 5 minutes
+const MAX_QUERY_LENGTH = 100;
+const SEARCH_BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.gianlucarainis.com';
 
 let cachedIndex = null; // Cached search index
 let cachedAt = 0; // Timestamp of when the index was cached
@@ -30,7 +32,14 @@ export default async function handler(req, res) {
         });
     }
 
-    const searchIndex = await getSearchIndex(req); // Get the search index
+    if (searchQuery.length > MAX_QUERY_LENGTH) {
+        return res.status(400).json({
+            error: 'Query too long',
+            results: []
+        });
+    }
+
+    const searchIndex = await getSearchIndex(); // Get the search index
 
     const results = searchIndex.filter(item => {
         const titleMatch = item.title.toLowerCase().includes(searchQuery);
@@ -50,7 +59,7 @@ export default async function handler(req, res) {
     });
 }
 
-async function getSearchIndex(req) {
+async function getSearchIndex() {
     const cacheIsFresh = cachedIndex && (Date.now() - cachedAt) < CACHE_TTL_MS; // Check if cached index is still valid
 
     if (cacheIsFresh) {
@@ -58,7 +67,7 @@ async function getSearchIndex(req) {
     }
 
     if (!inFlightBuild) {
-        inFlightBuild = buildSearchIndex(req) // Start building the index and cache it when done
+        inFlightBuild = buildSearchIndex() // Start building the index and cache it when done
             .then(index => {
                 cachedIndex = index;
                 cachedAt = Date.now();
@@ -73,12 +82,11 @@ async function getSearchIndex(req) {
     return inFlightBuild;
 }
 
-async function buildSearchIndex(req) {
-    const baseUrl = getBaseUrl(req); // Get the base URL to fetch pages
+async function buildSearchIndex() {
     const routes = await getSiteRoutes(); // Get all site routes
 
     const pages = await Promise.all(routes.map(async (route) => { // Get content of each page
-        const page = await fetchPageSnapshot(baseUrl, route); // Fetch the page content
+        const page = await fetchPageSnapshot(SEARCH_BASE_URL, route); // Fetch the page content
 
         if (!page) {
             return null;
@@ -153,7 +161,9 @@ async function getSiteRoutes() {
 
 async function fetchPageSnapshot(baseUrl, route) {
     try {
-        const response = await fetch(new URL(route, baseUrl).toString()); // Fetch the page content
+        const response = await fetch(new URL(route, baseUrl).toString(), {
+            signal: AbortSignal.timeout(5000)
+        }); // Fetch the page content
 
         if (!response.ok) {
             return null;
@@ -169,14 +179,6 @@ async function fetchPageSnapshot(baseUrl, route) {
     } catch {
         return null;
     }
-}
-
-function getBaseUrl(req) {
-    const forwardedProto = req.headers['x-forwarded-proto'];
-    const protocol = Array.isArray(forwardedProto) ? forwardedProto[0] : forwardedProto || 'http'; // Get the protocol
-    const host = req.headers.host || 'localhost:3000'; // Get the host
-
-    return `${protocol}://${host}`; // Construct the base URL
 }
 
 function extractTitle(html) {
